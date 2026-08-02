@@ -93,3 +93,48 @@
 # 3. If still greyed out: full logout/login (not just refresh), check propagation up to 30 min
 # 4. Re-verify workspace is still on Fabric Trial capacity, not reverted to Pro
 
+
+# MARKDOWN ********************
+
+# ### Issue: Branch dropdown search not surfacing existing "main" branch
+# **Date:** 2026-08-01
+# 
+# **What I expected:** Typing "main" in the branch search box would show my existing 
+# default branch as a selectable option
+# 
+# **What happened instead:** Search returned nothing but "+ New Branch," repeatedly, 
+# across two separate account connections, a hard browser refresh, and a corrected 
+# repository URL
+# 
+# **Diagnosis steps:**
+# 1. Verified GitHub PAT had correct `repo` scope and hadn't expired
+# 2. Verified repository URL was clean (caught and fixed a `/tree/main` suffix error)
+# 3. Deleted and fully recreated the Git connection to rule out stale caching
+# 4. Confirmed via GitHub UI that only one branch (`main`) genuinely existed
+# 5. As a last check, manually scrolled the branch dropdown's full list instead of 
+#    relying on the search filter
+# **Root cause:** The branch dropdown's search/filter functionality didn't reliably 
+# match "main" as a search term, even though the branch existed and appeared fine 
+# in the unfiltered scrollable list.
+# **Fix:** Scrolled manually through the dropdown instead of typing into search — 
+# "main" was there the whole time.
+# **Lesson:** When a UI search/filter returns nothing, don't assume the underlying 
+# data doesn't exist — check the raw/unfiltered list before concluding there's a 
+# data or connection problem. Search boxes can have their own bugs independent of 
+# the data they're searching.
+# 
+# 
+# ### Resolution: GitHub Git integration successfully connected
+# **Date:** 2026-08-02
+# 
+# Workspace successfully connected to GitHub repo (omdata-pro/el-salvador-analytics), 
+# branch `main`, root folder. Initial sync pushed 00_Project_Log Notebook to GitHub 
+# without disturbing existing README.md or LICENSE. Verified via GitHub commit 
+# history — 3 commits total, no conflicts.
+# 
+# **Total issues resolved this session:** region mismatch → Pro vs Trial capacity → 
+# GitHub toggle disabled at tenant level → accidental duplicate branch (case 
+# sensitivity) → branch dropdown search bug (had to scroll manually) → repository 
+# URL format error (stray /tree/main suffix). Six distinct root causes, each 
+# diagnosed and fixed independently.
+
