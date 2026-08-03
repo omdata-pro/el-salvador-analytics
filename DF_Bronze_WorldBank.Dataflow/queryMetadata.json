@@ -1,0 +1,40 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "DF_Bronze_WorldBank",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "Bronze_WorldBank_GDP": {
+      "queryId": "bf3c7d4c-ef38-4dca-977d-a63da6bd46e7",
+      "queryName": "Bronze_WorldBank_GDP",
+      "loadEnabled": false
+    },
+    "Query_DataDestination": {
+      "queryId": "78b31482-6f38-43e2-8de7-589b41b46851",
+      "queryName": "Query_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "DefaultDestination": {
+      "queryId": "94602cac-3336-4b01-bb81-c28af3734b05",
+      "queryName": "DefaultDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "https://api.worldbank.org/v2/country/SLV/indicator/NY.GDP.MKTP.KD.ZG?format=json",
+      "kind": "Web",
+      "connectionId": "{\"ClusterId\":\"39838b4c-5f1e-4c0e-8384-4167b1a36f96\",\"DatasourceId\":\"40814f31-3b56-4a1d-ab24-578fda9daac3\"}"
+    },
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"39838b4c-5f1e-4c0e-8384-4167b1a36f96\",\"DatasourceId\":\"23bce4b4-17fe-428f-a384-52c5a95f846a\"}"
+    }
+  ]
+}

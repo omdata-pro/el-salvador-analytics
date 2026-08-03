@@ -138,3 +138,21 @@
 # URL format error (stray /tree/main suffix). Six distinct root causes, each 
 # diagnosed and fixed independently.
 
+
+# MARKDOWN ********************
+
+# ### Milestone: First Bronze pipeline complete — World Bank GDP data
+# **Date:** 2026-08-02
+# 
+# Built and published first Dataflow Gen2 (DF_Bronze_WorldBank), pulling El Salvador 
+# GDP growth data from the World Bank API (NY.GDP.MKTP.KD.ZG indicator), flattening 
+# nested JSON records, trimming to Country/Year/GDP_Growth_Pct, and landing as a 
+# typed Delta table (bronze_worldbank_gdp) in ElSalvador_Lakehouse. Verified via 
+# Recent Runs (Succeeded, 33s) and confirmed table structure in Lakehouse Explorer. 
+# 50 years of historical data (1993-2025).
+# 
+# **Key lesson:** The Dataflow's "Save & run" had already succeeded on an earlier 
+# run before I realized it — I was searching for a separate "Publish" button that 
+# wasn't the actual missing step. Learned to check Recent Runs / status bar for 
+# ground truth rather than assuming a UI flow is broken just because a button isn't 
+# where expected.
