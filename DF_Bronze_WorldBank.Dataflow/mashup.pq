@@ -1,7 +1,7 @@
 [DefaultOutputDestinationSettings = [DestinationDefinition = [Kind = "Reference", QueryName = "DefaultDestination", IsNewTarget = true], UpdateMethod = [Kind = "Replace"], DestinationTypeSettings = [Kind = "Table"]], StagingDefinition = [Kind = "FastCopy"]]
 section Section1;
 [DataDestinations = {[Definition = [Kind = "Reference", QueryName = "Query_DataDestination", IsNewTarget = true], Settings = [Kind = "Manual", AllowCreation = true, ColumnSettings = [Mappings = {[SourceColumnName = "Country", DestinationColumnName = "Country"], [SourceColumnName = "Year", DestinationColumnName = "Year"], [SourceColumnName = "GDP_Growth_Pct", DestinationColumnName = "GDP_Growth_Pct"]}], DynamicSchema = true, UpdateMethod = [Kind = "Replace"], TypeSettings = [Kind = "Table"]]]}]
-shared Bronze_WorldBank_GDP = let
+shared bronze_worldbank_gdp = let
   Source = Json.Document(Web.Contents("https://api.worldbank.org/v2/country/SLV/indicator/NY.GDP.MKTP.KD.ZG?format=json")),
   #"Converted to table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
   Navigation = #"Converted to table"{1}[Column1],
@@ -29,3 +29,32 @@ shared DefaultDestination = let
   #"Navigation 3" = #"Navigation 2"{[Id = "dbo", ItemKind = "Schema"]}[Data]
 in
   #"Navigation 3";
+[BindToDefaultDestination = true]
+shared bronze_worldbank_homicide = let
+  Source = Json.Document(Web.Contents("https://api.worldbank.org/v2/country/SV/indicator/VC.IHR.PSRC.P5?format=json&per_page=100")),
+  #"Converted to table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+  Navigation = #"Converted to table"{1}[Column1],
+  #"Converted to table 1" = Table.FromList(Navigation, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+  #"Expanded Column1" = Table.ExpandRecordColumn(#"Converted to table 1", "Column1", {"country", "countryiso3code", "date", "value"}, {"country", "countryiso3code", "date", "value"}),
+  #"Expanded country" = Table.ExpandRecordColumn(#"Expanded Column1", "country", {"id", "value"}, {"id", "value.1"}),
+  #"Removed columns" = Table.RemoveColumns(#"Expanded country", {"id", "countryiso3code"}),
+  #"Renamed columns" = Table.RenameColumns(#"Removed columns", {{"value.1", "Country"}, {"date", "Year"}, {"value", "Homicide_Rate_Per100k"}}),
+  #"Changed column type" = Table.TransformColumnTypes(#"Renamed columns", {{"Year", Int64.Type}, {"Homicide_Rate_Per100k", type number}, {"Country", type text}})
+in
+  #"Changed column type";
+[BindToDefaultDestination = true]
+shared bronze_worldbank_fdi = let
+  Source = Json.Document(Web.Contents("https://api.worldbank.org/v2/country/SV/indicator/BX.KLT.DINV.CD.WD?format=json&per_page=100")),
+  #"Converted to table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+  Navigation = #"Converted to table"{1}[Column1],
+  #"Converted to table 1" = Table.FromList(Navigation, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+  #"Expanded Column1" = Table.ExpandRecordColumn(#"Converted to table 1", "Column1", {"country", "countryiso3code", "date", "value"}, {"country", "countryiso3code", "date", "value"}),
+  #"Expanded country" = Table.ExpandRecordColumn(#"Expanded Column1", "country", {"id", "value"}, {"id", "value.1"}),
+  #"Removed other columns" = Table.SelectColumns(#"Expanded country", {"id", "value.1", "countryiso3code", "date", "value"}),
+  #"Removed columns" = Table.RemoveColumns(#"Removed other columns", {"id"}),
+  #"Renamed columns" = Table.RenameColumns(#"Removed columns", {{"date", "Year"}, {"value", "FDI_USD"}}),
+  #"Removed columns 1" = Table.RemoveColumns(#"Renamed columns", {"countryiso3code"}),
+  #"Changed column type" = Table.TransformColumnTypes(#"Removed columns 1", {{"Year", Int64.Type}, {"value.1", type text}, {"FDI_USD", type number}}),
+  #"Renamed columns 1" = Table.RenameColumns(#"Changed column type", {{"value.1", "Country"}})
+in
+  #"Renamed columns 1";

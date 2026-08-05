@@ -156,3 +156,72 @@
 # wasn't the actual missing step. Learned to check Recent Runs / status bar for 
 # ground truth rather than assuming a UI flow is broken just because a button isn't 
 # where expected.
+
+# MARKDOWN ********************
+
+# ### Decisions
+# **Data** 2026-08-04
+# - Bronze layer will use two distinct areas with different roles:
+#   - `Tables/dbo/` — the queryable Bronze Delta layer. All sources land here as typed 
+#     Delta tables (via Dataflow Gen2 or notebook), regardless of ingestion method.
+#   - `Files/bronze/<source>/` — raw-landing staging, used only for sources without a 
+#     clean API (PNC homicide data, bitcoin.gob.sv treasury tracker). Raw files land 
+#     here first, then get cleaned/typed into a Tables/dbo/ Delta table.
+# - World Bank sources skip the Files staging step entirely (clean JSON API → 
+#   Dataflow Gen2 → Tables/dbo/ directly), so Files/bronze/worldbank/ stays 
+#   intentionally unused.
+# 
+# ### Progress
+# - bronze_worldbank_gdp: verified working end-to-end (Tables/dbo/).
+# - Started bronze_worldbank_fdi following the same Dataflow Gen2 pattern.
+# - Reviewed Lakehouse folder structure; clarified Bronze layer design (see Decisions).
+# 
+# ### Troubleshooting
+# - Initially unclear whether Files/bronze/ subfolders (worldbank, security_pnc, 
+#   bitcoin_treasury) created upfront should mirror Tables/dbo/ 1:1. Resolved: they 
+#   don't — Files/ is only needed for sources requiring a raw-landing step before 
+#   transformation.
+
+
+# MARKDOWN ********************
+
+# ### Progress
+# **Date** 2026-08-04
+# - bronze_worldbank_homicide: built and landed (VC.IHR.PSRC.P5, UNODC-sourced via 
+#   World Bank API). 66 rows, 2015-2025, real data only 2017-2022.
+# - bronze_worldbank_fdi: built and landed (BX.KLT.DINV.CD.WD). 66 rows, matches 
+#   Country/Year/[metric] schema pattern.
+# - All three World Bank Bronze tables (gdp, fdi, homicide) now consistent: lowercase 
+#   naming, matching column structure (Country, Year, [metric]).
+# - Scouted PNC and bitcoin.gob.sv as raw sources: neither has a clean API. 
+#   Documented findings (see Decisions).
+# 
+# ### Decisions
+# - Bronze layer uses Tables/dbo/ for all typed Delta tables (API and manual 
+#   sources alike); Files/bronze/<source>/ reserved for raw-landing staging on 
+#   non-API sources only.
+# - Homicide segmentation by gang-affiliation and feminicide will NOT be sourced 
+#   via API — El Salvador stopped officially publishing this breakdown after 2022. 
+#   Feminicide counts will be manually compiled from ORMUSA's monthly PDF reports 
+#   into a template CSV (chosen over automated PDF-table extraction due to 
+#   inconsistent PDF formatting and low monthly volume).
+# - 2023-2025 annual homicide totals (missing from World Bank/UNODC data) will be 
+#   manually sourced from official Gabinete de Seguridad/Fiscalía announcements, 
+#   landed as a SEPARATE Bronze table (not merged into bronze_worldbank_homicide) 
+#   to preserve source lineage. Blending happens at Silver layer with an explicit 
+#   Source column.
+# 
+# ### Troubleshooting
+# - FDI query was built/flattened in a prior session but never had its Lakehouse 
+#   destination configured or run - caught via Lakehouse Explorer audit before 
+#   moving forward. Lesson: verify each query's destination status before ending 
+#   a session, not just that it's been flattened.
+# - Homicide query initially landed as bronze_worldbank_homicide with capitalized 
+#   query-name-as-table-name (Bronze_WorldBank_Homicide) and FDI initially landed 
+#   with unrenamed Country column (value.1) - both caught via Lakehouse Explorer 
+#   spot-check and corrected. 
+# - Found conflicting official 2023 homicide figures: Secretaria de Comunicaciones 
+#   reported 194 (Jan 2, 2024 press release) one day before Gabinete de Seguridad's 
+#   formal announcement of 154 (Jan 3, 2024). Using the later, formal Gabinete 
+#   figure as authoritative.
+

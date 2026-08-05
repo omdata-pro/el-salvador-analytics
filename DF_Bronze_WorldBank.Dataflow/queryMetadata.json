@@ -7,9 +7,9 @@
   "queryGroups": [],
   "documentLocale": "en-US",
   "queriesMetadata": {
-    "Bronze_WorldBank_GDP": {
+    "bronze_worldbank_gdp": {
       "queryId": "bf3c7d4c-ef38-4dca-977d-a63da6bd46e7",
-      "queryName": "Bronze_WorldBank_GDP",
+      "queryName": "bronze_worldbank_gdp",
       "loadEnabled": false
     },
     "Query_DataDestination": {
@@ -23,6 +23,16 @@
       "queryName": "DefaultDestination",
       "isHidden": true,
       "loadEnabled": false
+    },
+    "bronze_worldbank_homicide": {
+      "queryId": "54f23fd4-faec-433c-9254-7bc139d00b74",
+      "queryName": "bronze_worldbank_homicide",
+      "loadEnabled": false
+    },
+    "bronze_worldbank_fdi": {
+      "queryId": "dbfadb8e-289d-4a70-85d3-82066649ed1d",
+      "queryName": "bronze_worldbank_fdi",
+      "loadEnabled": false
     }
   },
   "connections": [
@@ -35,6 +45,16 @@
       "path": "Lakehouse",
       "kind": "Lakehouse",
       "connectionId": "{\"ClusterId\":\"39838b4c-5f1e-4c0e-8384-4167b1a36f96\",\"DatasourceId\":\"23bce4b4-17fe-428f-a384-52c5a95f846a\"}"
+    },
+    {
+      "path": "https://api.worldbank.org/v2/country/SV/indicator/VC.IHR.PSRC.P5?format=json&per_page=100",
+      "kind": "Web",
+      "connectionId": "{\"ClusterId\":\"39838b4c-5f1e-4c0e-8384-4167b1a36f96\",\"DatasourceId\":\"4db60ab4-a6f9-4e6c-a591-5674eb0a6d3a\"}"
+    },
+    {
+      "path": "https://api.worldbank.org/v2/country/SV/indicator/BX.KLT.DINV.CD.WD?format=json&per_page=100",
+      "kind": "Web",
+      "connectionId": "{\"ClusterId\":\"39838b4c-5f1e-4c0e-8384-4167b1a36f96\",\"DatasourceId\":\"e6870bbe-e5e7-4677-b172-8151b41b2030\"}"
     }
   ]
 }
