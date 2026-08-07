@@ -225,3 +225,59 @@
 #   formal announcement of 154 (Jan 3, 2024). Using the later, formal Gabinete 
 #   figure as authoritative.
 
+
+# MARKDOWN ********************
+
+# ### Progress
+# **Date** 2026-08-07
+# - bronze_bitcoin_treasury_snapshot: built via CoinGecko Treasuries API 
+#   (governments entity), landed in Tables/dbo. 13 rows, verified El Salvador 
+#   shows 7,474.37 BTC matching public reporting.
+# - bronze_bitcoin_treasury_history: manually compiled checkpoint-disclosure 
+#   history (6 dated entries, 2022-2025) from public purchase announcements, 
+#   loaded via Lakehouse's native "Load to Tables" file-to-table feature rather 
+#   than Dataflow Gen2 (deliberate choice - file was already clean, didn't need 
+#   Power Query transformation overhead).
+# - Bitcoin pillar Bronze layer now complete: snapshot + history tables.
+# 
+# ### Decisions
+# - CoinGecko's Treasuries API requires a free Demo-tier API key with 
+#   attribution required; documented as a data source credit.
+# - No public daily purchase ledger exists for El Salvador's Bitcoin 
+#   acquisitions - built bronze_bitcoin_treasury_history as a checkpoint/
+#   disclosure table (dated confirmations) rather than a true daily transaction 
+#   log, with a Type column distinguishing Official vs Estimated figures.
+# - Noted an unexplained gap between the Nov 2023 estimate (~2,744 BTC) and 
+#   May 2024 official disclosure (5,748.76 BTC) - likely mining revenue plus 
+#   accelerated DCA, but not officially bridged. Documented as a real 
+#   transparency/data-availability finding rather than smoothed over.
+# - Used Lakehouse's native "Load to Tables" feature for the history CSV instead 
+#   of Dataflow Gen2, since the file was already clean - accepted the tradeoff 
+#   of no visible Applied Steps transformation history for this one table.
+# 
+# ### Troubleshooting
+# - CoinGecko API entity filter (entity=governments) must be a URL PATH 
+#   parameter (/governments/public_treasury/bitcoin), not a query string 
+#   parameter (?entity=governments) - the query param was silently ignored, 
+#   returning companies data instead with no error. Found via official API docs, 
+#   not the summary article.
+# - Fabric's Web API connector UI did not expose an "Advanced/Headers" option as 
+#   expected - worked around by editing the M code directly in the formula bar 
+#   to add Web.Contents(...,[Headers=[...]]) for the API key.
+# - Hit a "Token Literal expected" M syntax error twice: first from a duplicate 
+#   leading "=" (formula bar already implies it), second from a missing opening 
+#   bracket before Headers=. Used "Show error" to pinpoint the exact character 
+#   position rather than guessing.
+# - Dataflow run failed with ModelBuilderDefaultOutputDestinationQueriesWith
+#   OnlyUnsupportedTypeColumns - caused by skipping the explicit "Changed column 
+#   type" step before setting the Lakehouse destination. Fixed by setting types 
+#   via Detect Data Type before landing.
+# - Table initially landed as bronze_bitcointreasury_snapshot (missing 
+#   underscore) - caught via naming consistency check, corrected, old table 
+#   deleted.
+# - Attempted OneLake connection via Text/CSV connector using a copied URL that 
+#   turned out to be a Fabric portal link (app.fabric.microsoft.com), not a true 
+#   OneLake data path - connector couldn't authenticate. Worked around using the 
+#   Lakehouse's native "Load to Tables" feature instead of chasing the correct 
+#   OneLake URL format.
+
