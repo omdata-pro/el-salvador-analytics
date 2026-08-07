@@ -281,3 +281,22 @@
 #   Lakehouse's native "Load to Tables" feature instead of chasing the correct 
 #   OneLake URL format.
 
+
+# MARKDOWN ********************
+
+# ## 2026-08-07 (continued)
+# 
+# ### Progress
+# - bronze_security_annual_totals: manually compiled 2023-2025 homicide totals 
+#   from official Gabinete de Seguridad/Fiscalia figures, loaded via Lakehouse's 
+#   native "Load to Tables" feature. 3 rows, clean load, no debugging required.
+# - Bronze layer now substantively complete across all three pillars (7 tables 
+#   total): macroeconomic (GDP, FDI), security (WorldBank homicide + manual 
+#   annual totals), Bitcoin (treasury snapshot + history).
+# 
+# ### Decisions
+# - Considered adding World Bank tourism indicators (ST.INT.ARVL, ST.INT.RCPT.CD) 
+#   as a 4th data thread tied to the security-turnaround narrative. Found the 
+#   series stops reporting around 2020 - same lagging-data pattern as homicide. 
+#   Deferred: will revisit as a manual-checkpoint table (like Bitcoin history) 
+#   if the tourism/investment narrative needs 2021-2026 coverage.
