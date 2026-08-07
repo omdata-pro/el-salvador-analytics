@@ -1,0 +1,39 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "DF_Bronze_BitcoinTreasury",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "bronze_bitcoin_treasury_snapshot": {
+      "queryId": "5d6108c4-5f2e-4429-b397-f6474ae0869b",
+      "queryName": "bronze_bitcoin_treasury_snapshot",
+      "loadEnabled": false
+    },
+    "DefaultDestination": {
+      "queryId": "5f1bbc96-20e4-4458-8be8-f3fb2da7d07f",
+      "queryName": "DefaultDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "https://api.coingecko.com/api/v3/companies/public_treasury/bitcoin?entity=governments",
+      "kind": "Web",
+      "connectionId": "{\"ClusterId\":\"39838b4c-5f1e-4c0e-8384-4167b1a36f96\",\"DatasourceId\":\"31ae5acb-42c4-4590-ba6e-33eea661e755\"}"
+    },
+    {
+      "path": "https://api.coingecko.com/api/v3/governments/public_treasury/bitcoin",
+      "kind": "Web",
+      "connectionId": "{\"ClusterId\":\"39838b4c-5f1e-4c0e-8384-4167b1a36f96\",\"DatasourceId\":\"6df9c370-bb84-4d6c-8cba-18f9226f1f03\"}"
+    },
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"39838b4c-5f1e-4c0e-8384-4167b1a36f96\",\"DatasourceId\":\"23bce4b4-17fe-428f-a384-52c5a95f846a\"}"
+    }
+  ]
+}

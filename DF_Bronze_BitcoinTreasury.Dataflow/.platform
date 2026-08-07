@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Dataflow",
+    "displayName": "DF_Bronze_BitcoinTreasury"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "afbce934-bdcd-9934-4747-5cee887e3ed6"
+  }
+}
