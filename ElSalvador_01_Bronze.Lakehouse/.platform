@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Lakehouse",
+    "displayName": "ElSalvador_01_Bronze",
+    "description": "Raw, unmodified source data for the El Salvador Analytics case study (2015-2026). One table per data source (World Bank API, CoinGecko API, manually-compiled government/NGO figures), preserving original structure and source lineage. No cleaning or joins applied here."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e86b8a98-394c-9fba-4682-cb644655e07e"
+  }
+}

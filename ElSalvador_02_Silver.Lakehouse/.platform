@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Lakehouse",
+    "displayName": "ElSalvador_02_Silver",
+    "description": "Cleaned and blended analysis-ready tables, combining multiple Bronze sources per pillar (security, macroeconomic, Bitcoin treasury) into continuous, source-tagged trend tables. Resolves known data conflicts and gaps documented in the project log."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "930db478-6915-a966-4bcb-1f3d447fcbb5"
+  }
+}

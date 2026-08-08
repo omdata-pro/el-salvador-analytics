@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Lakehouse",
+    "displayName": "ElSalvador_03_Gold",
+    "description": "Final aggregated tables and views feeding the Power BI report layer for the El Salvador Analytics case study. Business-ready metrics and pre-joined cross-pillar views."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "55c6e8ad-b813-9f6d-40a5-add506bd0ffa"
+  }
+}
