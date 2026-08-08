@@ -300,3 +300,52 @@
 #   series stops reporting around 2020 - same lagging-data pattern as homicide. 
 #   Deferred: will revisit as a manual-checkpoint table (like Bitcoin history) 
 #   if the tourism/investment narrative needs 2021-2026 coverage.
+
+# MARKDOWN ********************
+
+# ### Progress
+# **Date** 2026-08-08
+# - Began Silver layer work via new Fabric Notebook (PySpark): 10_Silver_Transformations
+# - Built and landed silver_security_homicide_trend: blended bronze_worldbank_homicide 
+#   (1994-2022, corrected from earlier undercount - originally believed to start 2017) 
+#   with bronze_security_annual_totals (2023-2025) into one continuous 32-row trend, 
+#   with a Source column preserving lineage per row. This table currently sits in the 
+#   wrong Lakehouse (pre-migration location) and needs to be rebuilt post-migration.
+# - Created ElSalvador_02_Silver and ElSalvador_03_Gold Lakehouses (schema-enabled). 
+#   Renamed original ElSalvador_Lakehouse to ElSalvador_01_Bronze (all 7 existing 
+#   Bronze tables intact, unaffected by rename).
+# 
+# ### Decisions
+# - Explored separate schemas (bronze/silver/gold) within a single Lakehouse for 
+#   Silver layer organization. Found Fabric Lakehouse schema support is a 
+#   creation-time-only setting with no retroactive migration path for existing 
+#   Lakehouses - would require recreating and re-migrating all 7 Bronze tables.
+# - Initially decided to stay with single Lakehouse + bronze_/silver_/gold_ naming 
+#   prefixes (all in dbo) to avoid that rework.
+# - Reconsidered and reversed that decision: adopted separate Lakehouses per 
+#   medallion layer instead (Bronze/Silver/Gold as distinct Lakehouse items) - this 
+#   avoids migrating existing Bronze data entirely (Bronze Lakehouse just gets 
+#   renamed, tables untouched) while still achieving clean architectural separation. 
+#   New Silver/Gold Lakehouses created with schema support enabled for future 
+#   flexibility. This is a documented, legitimate enterprise Fabric pattern 
+#   (separate-Lakehouse-per-layer), often preferred for per-layer access control.
+# - Naming convention: ElSalvador_01_Bronze / _02_Silver / _03_Gold. Note: Fabric 
+#   Lakehouse names cannot start with a digit (attempted 01_ElSalvador_Bronze, 
+#   update failed) - number placement moved after the shared prefix instead.
+# 
+# ### Troubleshooting
+# - Lakehouse rename to "01_ElSalvador_Bronze" failed with a DisplayName validation 
+#   error - root cause identified as leading-digit restriction on Fabric item names. 
+#   Resolved by moving the numeric prefix after "ElSalvador_" instead.
+# 
+# ### Next steps
+# 1. Build 3 Central American regional comparison Bronze tables (homicide, GDP, FDI) 
+#    using multi-country World Bank query (SV;GT;HN;NI;CR;PA;BZ) in DF_Bronze_WorldBank, 
+#    landing in ElSalvador_01_Bronze as bronze_worldbank_homicide_regional, 
+#    _gdp_regional, _fdi_regional.
+# 2. Migrate 10_Silver_Transformations: attach ElSalvador_02_Silver, rebuild and 
+#    rewrite silver_security_homicide_trend to the correct Lakehouse, delete the 
+#    misplaced copy.
+# 3. Continue Silver layer: silver_macro_trend (GDP+FDI join) and Bitcoin pillar 
+#    Silver tables.
+
