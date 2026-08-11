@@ -349,3 +349,24 @@
 # 3. Continue Silver layer: silver_macro_trend (GDP+FDI join) and Bitcoin pillar 
 #    Silver tables.
 
+
+# MARKDOWN ********************
+
+# ## Progress
+# 
+# **Date** 2026-08-11
+# 
+# - Built 3 Central American regional comparison Bronze tables in DF_Bronze_WorldBank: bronze_worldbank_gdp_regional, bronze_worldbank_fdi_regional, bronze_worldbank_homicide_regional. Method: duplicated each existing single-country query and adapted the URL/destination rather than building from scratch, to reuse proven flatten logic.
+# - All 3 landed successfully in ElSalvador_01_Bronze/dbo, ~462 rows each, covering El Salvador, Guatemala, Honduras, Nicaragua, Costa Rica, Panama, and Belize.
+# 
+# ## Troubleshooting
+# 
+# - **Silent row truncation on GDP regional** - Source URL was missing &per_page=1000, and the World Bank API's default of 50 rows/page happened to exactly match one country's history, so the query silently returned only Belize's data with no error. Fixed by adding &per_page=1000 to the Source step URL.
+# - **Inconsistent formats across existing queries** - bronze_worldbank_gdp uses ISO3 country codes (SLV) while bronze_worldbank_fdi and bronze_worldbank_homicide use ISO2 (SV), with per_page defaults of 500 vs 100 respectively. Had to check each query's existing URL individually before editing rather than assuming a shared format.
+# - **Duplicated queries publish with no data destination** - Power Query's Duplicate action copies all transformation steps but not the Lakehouse destination, so the first Save & run on GDP regional completed with no error but wrote nothing. Fixed by explicitly configuring Data destination > Lakehouse > ElSalvador_01_Bronze/dbo on each new query before running.
+# - **Cosmetic connection-name truncation warning** on each new Web source URL - not blocking, resolved by renaming.
+# 
+# ## Decisions
+# 
+# - Adopted Capitalized_Underscore as the naming convention for Dataflow Gen2 connection names (e.g. WorldBank_Homicide_Regional_API), reusing one connection across related queries where the domain is the same rather than creating a new one per query.
+

@@ -33,6 +33,27 @@
       "queryId": "dbfadb8e-289d-4a70-85d3-82066649ed1d",
       "queryName": "bronze_worldbank_fdi",
       "loadEnabled": false
+    },
+    "bronze_worldbank_gdp_regional": {
+      "queryId": "2cf46f14-6484-4f8c-bffb-bfff4cd4235e",
+      "queryName": "bronze_worldbank_gdp_regional",
+      "loadEnabled": false
+    },
+    "bronze_worldbank_gdp_regional_DataDestination": {
+      "queryId": "2186a6a5-5674-42e7-80c5-699fe34f3b8b",
+      "queryName": "bronze_worldbank_gdp_regional_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "bronze_worldbank_fdi_regional": {
+      "queryId": "2354c90d-6259-4719-b0ce-d0eefcfafd04",
+      "queryName": "bronze_worldbank_fdi_regional",
+      "loadEnabled": false
+    },
+    "bronze_worldbank_homicide_regional": {
+      "queryId": "a8154ccd-e64c-45dc-922f-cb02fc5df71d",
+      "queryName": "bronze_worldbank_homicide_regional",
+      "loadEnabled": false
     }
   },
   "connections": [
@@ -55,6 +76,21 @@
       "path": "https://api.worldbank.org/v2/country/SV/indicator/BX.KLT.DINV.CD.WD?format=json&per_page=100",
       "kind": "Web",
       "connectionId": "{\"ClusterId\":\"39838b4c-5f1e-4c0e-8384-4167b1a36f96\",\"DatasourceId\":\"e6870bbe-e5e7-4677-b172-8151b41b2030\"}"
+    },
+    {
+      "path": "https://api.worldbank.org/v2/country/SLV;GTM;HND;NIC;CRI;PAN;BLZ/indicator/NY.GDP.MKTP.KD.ZG",
+      "kind": "Web",
+      "connectionId": "{\"ClusterId\":\"39838b4c-5f1e-4c0e-8384-4167b1a36f96\",\"DatasourceId\":\"020d5c2f-d36e-47cb-af0c-2276308a9ea2\"}"
+    },
+    {
+      "path": "https://api.worldbank.org/v2/country/SV;GT;HN;NI;CR;PA;BZ/indicator/BX.KLT.DINV.CD.WD",
+      "kind": "Web",
+      "connectionId": "{\"ClusterId\":\"39838b4c-5f1e-4c0e-8384-4167b1a36f96\",\"DatasourceId\":\"b6311e1d-7829-47c9-b29f-a090183fc914\"}"
+    },
+    {
+      "path": "https://api.worldbank.org/v2/country/SV;GT;HN;NI;CR;PA;BZ/indicator/VC.IHR.PSRC.P5",
+      "kind": "Web",
+      "connectionId": "{\"ClusterId\":\"39838b4c-5f1e-4c0e-8384-4167b1a36f96\",\"DatasourceId\":\"c9d00a41-3a5c-4870-8c21-a08544ae9039\"}"
     }
   ]
 }
