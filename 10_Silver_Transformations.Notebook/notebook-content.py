@@ -14,6 +14,9 @@
 # META       "known_lakehouses": [
 # META         {
 # META           "id": "4655e07e-cb64-4682-9fba-394ce86b8a98"
+# META         },
+# META         {
+# META           "id": "447fcbb5-1f3d-4bcb-a966-6915930db478"
 # META         }
 # META       ]
 # META     }
@@ -73,7 +76,78 @@ silver_homicide_trend.show(30)
 
 # CELL ********************
 
-silver_homicide_trend.write.format("delta").mode("overwrite").saveAsTable("silver_security_homicide_trend")
+silver_homicide_trend.write.format("delta").mode("overwrite").saveAsTable("ElSalvador_02_Silver.dbo.silver_security_homicide_trend")
+
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+spark.read.table("ElSalvador_02_Silver.dbo.silver_security_homicide_trend").show(35) 
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+print(spark.read.table("ElSalvador_02_Silver.dbo.silver_security_homicide_trend").count()) 
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df_gdp_regional = 
+spark.read.table("ElSalvador_01_Bronze.dbo.bronze_worldbank_gdp_regional"); df_fdi_regional = 
+spark.read.table("ElSalvador_01_Bronze.dbo.bronze_worldbank_fdi_regional"); df_homicide_regional = 
+spark.read.table("ElSalvador_01_Bronze.dbo.bronze_worldbank_homicide_regional") 
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+silver_regional = df_gdp_regional.join(df_fdi_regional, on=["Country", "Year"], 
+how="outer").join(df_homicide_regional, on=["Country", "Year"], how="outer").orderBy("Country", "Year"); silver_regional.show(20)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+print(silver_regional.count())
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+silver_regional.write.format("delta").mode("overwrite").saveAsTable("ElSalvador_02_Silver.dbo.silver_regional_comparison")
 
 # METADATA ********************
 

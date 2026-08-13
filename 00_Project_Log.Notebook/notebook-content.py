@@ -370,3 +370,25 @@
 # 
 # - Adopted Capitalized_Underscore as the naming convention for Dataflow Gen2 connection names (e.g. WorldBank_Homicide_Regional_API), reusing one connection across related queries where the domain is the same rather than creating a new one per query.
 
+
+# MARKDOWN ********************
+
+# # Progress
+# 
+# **Date** 2026-08-12
+# 
+# - Reattached 10_Silver_Transformations to ElSalvador_01_Bronze and ElSalvador_02_Silver (found via OneLake catalog search, since the notebook's Add data items menu doesn't list existing Lakehouses directly - had to distinguish the actual Lakehouse from its auto-created same-named SQL analytics endpoint by icon/tooltip).
+# - Rebuilt silver_security_homicide_trend in the correct location by fully qualifying the write path (ElSalvador_02_Silver.dbo.silver_security_homicide_trend) instead of a bare table name, then re-running the full notebook top to bottom since a fresh session had cleared previously defined DataFrame variables. Confirmed 32 rows, 1994-2025, with lineage Source column intact.
+# - Deleted the misplaced silver_security_homicide_trend copy that was sitting in ElSalvador_01_Bronze from before the migration. Bronze now holds exactly 10 clean tables (7 original + 3 regional), no Silver tables mixed in.
+# - Built silver_regional_comparison: one combined table (Country, Year, GDP_Growth_Pct, FDI_USD, Homicide_Rate_Per100k) outer-joining the 3 regional Bronze tables on Country/Year, chosen over 3 separate Silver tables since Silver's job is to make the downstream Gold/Power BI join once rather than push it further down the pipeline. Published successfully - 462 rows, correctly surfacing coverage gaps as nulls (e.g. Belize's FDI/homicide data starting later than its GDP data).
+# 
+# # Troubleshooting
+# 
+# - **Notebook write cell used a bare table name** - saveAsTable("silver_security_homicide_trend") had no Lakehouse prefix, so it wrote to whichever Lakehouse was "default" at runtime, landing in the wrong (pre-migration) location originally. Fixed by fully qualifying all saveAsTable() calls as "ElSalvador_02_Silver.dbo.<table>" going forward.
+# - **Fresh notebook session clears variables** - re-running only the write cell after a session reset threw NameError since the DataFrames built in earlier cells no longer existed in memory. Fixed with Run all to rebuild the full chain before writing.
+# - **Recurring paste bug**: pasting multi-line PySpark code into notebook cells repeatedly collapsed line breaks, merging separate statements onto the same line and causing SyntaxErrors. Worked around by writing statements as a single line joined with semicolons instead of relying on line breaks.
+# 
+# # Decisions
+# 
+# - Structured the regional Silver-layer work as one combined silver_regional_comparison table rather than three separate Silver tables mirroring the Bronze regional tables, to keep the country/year join logic centralized in Silver rather than repeated downstream.
+
