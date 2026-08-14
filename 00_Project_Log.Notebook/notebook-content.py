@@ -392,3 +392,25 @@
 # 
 # - Structured the regional Silver-layer work as one combined silver_regional_comparison table rather than three separate Silver tables mirroring the Bronze regional tables, to keep the country/year join logic centralized in Silver rather than repeated downstream.
 
+
+# MARKDOWN ********************
+
+# # Progress
+# 
+# **Date** 2026-08-13
+# 
+# - Built silver_macro_trend: joined bronze_worldbank_gdp + bronze_worldbank_fdi for El Salvador only, on Country/Year, outer join. Published to ElSalvador_02_Silver/dbo - 66 rows. Row count implies GDP/FDI actually span 1960-2025 rather than the 1996-2025 assumed in earlier notes, consistent with the pattern of other date-range corrections already documented in this log (e.g. the homicide indicator).
+# - Decided to structure the Bitcoin pillar as one combined silver_bitcoin_treasury table rather than two separate Silver tables.
+# - Built silver_bitcoin_treasury: unified bronze_bitcoin_treasury_snapshot (13 governments, current point-in-time, from CoinGecko) and bronze_bitcoin_treasury_history (6 dated El Salvador checkpoints, manually compiled) into one schema (Country, Record_Type, Date, BTC_Holdings, Value_USD, Pct_Of_Total_Supply, Source, Notes) using unionByName, since the two sources have different grains and no shared join key. Published to ElSalvador_02_Silver/dbo - 19 rows.
+# - Silver layer is now fully complete: silver_security_homicide_trend, silver_regional_comparison, silver_macro_trend, and silver_bitcoin_treasury all confirmed live in ElSalvador_02_Silver/dbo.
+# 
+# # Troubleshooting
+# 
+# - **Recurring notebook paste bug persisted across sessions** - even previously-working cells (from last session) reverted to broken multi-line syntax after a Run all/reload, throwing SyntaxErrors on code that had already been fixed once. Confirmed this is a persistent editor/browser quirk, not a one-off mistake. Standing fix: type statements as a single unbroken line joined with semicolons rather than relying on line breaks, and avoid Run all on this notebook - run cells individually instead, since Run all tends to trigger the bug across multiple cells at once.
+# - **NameError from skipped cells** - hit `name 'silver_macro' is not defined` because the join cell that actually creates the DataFrame had never been added/run, only the read and count cells existed. Lesson: when a NameError appears, check whether the defining cell was skipped entirely, not just whether the notebook needs a full re-run.
+# - Confirmed `.mode("overwrite")` on writes is safe to re-run - it replaces the table's full contents each time rather than appending, so re-running earlier cells (intentionally or while troubleshooting) does not create duplicate rows.
+# 
+# # Decisions
+# 
+# - Structured the Bitcoin pillar Silver table as a union with a unified schema (Country/Record_Type/Date/BTC_Holdings/Value_USD/Pct_Of_Total_Supply/Source/Notes) rather than a join, since snapshot and history data have fundamentally different grains (cross-sectional current state vs. longitudinal single-country history).
+

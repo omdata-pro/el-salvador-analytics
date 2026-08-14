@@ -110,10 +110,7 @@ print(spark.read.table("ElSalvador_02_Silver.dbo.silver_security_homicide_trend"
 
 # CELL ********************
 
-df_gdp_regional = 
-spark.read.table("ElSalvador_01_Bronze.dbo.bronze_worldbank_gdp_regional"); df_fdi_regional = 
-spark.read.table("ElSalvador_01_Bronze.dbo.bronze_worldbank_fdi_regional"); df_homicide_regional = 
-spark.read.table("ElSalvador_01_Bronze.dbo.bronze_worldbank_homicide_regional") 
+df_gdp_regional = spark.read.table("ElSalvador_01_Bronze.dbo.bronze_worldbank_gdp_regional"); df_fdi_regional = spark.read.table("ElSalvador_01_Bronze.dbo.bronze_worldbank_fdi_regional"); df_homicide_regional = spark.read.table("ElSalvador_01_Bronze.dbo.bronze_worldbank_homicide_regional") 
 
 # METADATA ********************
 
@@ -148,6 +145,128 @@ print(silver_regional.count())
 # CELL ********************
 
 silver_regional.write.format("delta").mode("overwrite").saveAsTable("ElSalvador_02_Silver.dbo.silver_regional_comparison")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df_gdp = spark.read.table("ElSalvador_01_Bronze.dbo.bronze_worldbank_gdp"); df_fdi = spark.read.table("ElSalvador_01_Bronze.dbo.bronze_worldbank_fdi")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df_gdp.show(5); df_fdi.show(5)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+silver_macro = df_gdp.join(df_fdi, on=["Country", "Year"], how="outer").orderBy("Year"); silver_macro.show(20)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+print(silver_macro.count())
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+silver_macro.write.format("delta").mode("overwrite").saveAsTable("ElSalvador_02_Silver.dbo.silver_macro_trend")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df_btc_snapshot = spark.read.table("ElSalvador_01_Bronze.dbo.bronze_bitcoin_treasury_snapshot"); 
+df_btc_history = spark.read.table("ElSalvador_01_Bronze.dbo.bronze_bitcoin_treasury_history")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df_btc_snapshot.show(15); df_btc_history.show(10)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+from pyspark.sql import functions as F; df_snapshot_aligned = df_btc_snapshot.select(F.col("Country"), F.lit("Snapshot").alias("Record_Type"), F.lit(None).cast("string").alias("Date"), F.col("BTC_Holdings"), F.col("Current_Value_USD").alias("Value_USD"), F.col("Pct_Of_Total_Supply"), F.lit("CoinGecko").alias("Source"), F.lit(None).cast("string").alias("Notes"))
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df_history_aligned = df_btc_history.select(F.lit("El Salvador").alias("Country"), F.col("Type").alias("Record_Type"), F.col("Date").cast("string").alias("Date"), F.col("Cumulative_BTC").alias("BTC_Holdings"), F.lit(None).cast("double").alias("Value_USD"), F.lit(None).cast("double").alias("Pct_Of_Total_Supply"), F.col("Source"), F.col("Notes"))
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+ silver_bitcoin = df_snapshot_aligned.unionByName(df_history_aligned); silver_bitcoin.show(25, truncate=False)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+silver_bitcoin.write.format("delta").mode("overwrite").saveAsTable("ElSalvador_02_Silver.dbo.silver_bitcoin_treasury")
 
 # METADATA ********************
 
