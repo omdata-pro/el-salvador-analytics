@@ -414,3 +414,46 @@
 # 
 # - Structured the Bitcoin pillar Silver table as a union with a unified schema (Country/Record_Type/Date/BTC_Holdings/Value_USD/Pct_Of_Total_Supply/Source/Notes) rather than a join, since snapshot and history data have fundamentally different grains (cross-sectional current state vs. longitudinal single-country history).
 
+
+# MARKDOWN ********************
+
+# # Progress
+# 
+# **Date** 2026-08-14
+# 
+# - Created new notebook 20_Gold_Aggregations, attached to ElSalvador_02_Silver (read source) and ElSalvador_03_Gold (write destination) via OneLake catalog search.
+# - Built gold_security_trend, gold_macro_trend, gold_bitcoin_treasury, and gold_regional_comparison as straight pass-throughs of the 4 corresponding Silver tables, using fully-qualified saveAsTable() paths from the start this time.
+# - Built gold_kpi_summary: extracted the latest non-null value per headline metric across all 4 pillars into a single 4-row summary table for Power BI KPI cards - Homicide Rate 1.9/100k (2024), GDP Growth 3.9% (2025), FDI Net Inflows ~$763.7M (2025), Bitcoin Treasury 7,474.37 BTC (current).
+# - Confirmed all 5 Gold tables live in ElSalvador_03_Gold/dbo. Full Bronze -> Silver -> Gold pipeline now complete across all 3 pillars plus the regional comparison layer.
+# 
+# # Troubleshooting
+# 
+# - Same recurring notebook paste bug encountered again on new cells this session; continued using the single-line-with-semicolons workaround and running cells individually rather than Run all.
+# - Hit a NameError building gold_kpi_summary when referencing DataFrames from earlier cells after a session gap; resolved by re-running the defining read/write cells before the aggregation cell.
+# 
+# # Decisions
+# 
+# - Set a working process for future sessions: when a session runs long or approaches time/context limits, proactively produce a portable handoff prompt with full project context, current status, and next steps, so the project can continue without interruption. 9 days remained on Fabric trial capacity as of this session.
+
+
+# MARKDOWN ********************
+
+# # Progress
+# 
+# **Date** 2026-08-15
+# 
+# - Exported all 5 Gold tables to CSV directly from 20_Gold_Aggregations using a loop with toPandas().to_csv() into the Lakehouse Files area, as a safeguard against Fabric trial capacity expiring and to support a planned parallel Tableau Public rebuild.
+# - Downloaded all 5 CSVs locally (gold_bitcoin_treasury, gold_kpi_summary, gold_macro_trend, gold_regional_comparison, gold_security_trend) via the Lakehouse's own Files browser.
+# - Generated a full project handoff document covering architecture, pipeline status, recurring technical issues, and a detailed Power BI semantic layer plan (star-schema relationships, dim_year table, pillar-specific DAX measures, KPI card setup, report structure, fintech-dark design direction) to keep the project portable across sessions/tools.
+# - Began Power BI planning: confirmed working in Power BI Service (web, inside Fabric) rather than Desktop. Cross-checked planned DAX measures with a second AI's review and corrected three issues before implementation: Latest Homicide Rate needed to select the latest year with non-blank data rather than the table's overall max year (2025 has no rate yet); Bitcoin checkpoint growth needed to be calculated by first/latest date rather than MIN/MAX of the holdings value directly; and the regional homicide ranking needed to use the latest year containing homicide data rather than the table's overall max year.
+# 
+# # Troubleshooting
+# 
+# - The right-click Download option for exported CSVs was missing/inconsistent depending on which Lakehouse's Files view was used to navigate to it (via a notebook's Explorer panel vs. the Lakehouse item directly). Resolved by opening the Lakehouse item directly and using its own Files browser, where Download reliably appeared.
+# 
+# # Decisions
+# 
+# - Confirmed gold_bitcoin_treasury needs two Power Query fixes before building Bitcoin measures: standardizing the inconsistent Country values (ISO2 codes on snapshot rows vs. full country names on history rows) to one format, and converting the Date column from text to a proper Date type.
+# - Adopted a semantic model plan with dim_year related only to the three yearly-grain Gold tables (security, macro, regional); gold_bitcoin_treasury stays on its own date grain; gold_kpi_summary stays unrelated/standalone as the Overview page's KPI card source.
+# - Confirmed sequencing for the Power BI build: connect the 5 Gold tables, clean the Bitcoin country/date columns, build dim_year and relationships, build a dedicated Measures table, then build the Overview page before the pillar-specific pages.
+
