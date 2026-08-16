@@ -1,0 +1,12 @@
+relationship c8398115-e68c-cc96-858a-d0cb1f27bc2c
+	fromColumn: gold_macro_trend.Year
+	toColumn: dim_year.Year
+
+relationship d5d8b084-b3bd-54e4-fc41-7e54924da9d1
+	fromColumn: gold_security_trend.Year
+	toColumn: dim_year.Year
+
+relationship 97528708-1e0f-be06-d944-69bba35c1976
+	fromColumn: gold_regional_comparison.Year
+	toColumn: dim_year.Year
+

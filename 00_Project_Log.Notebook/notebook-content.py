@@ -457,3 +457,57 @@
 # - Adopted a semantic model plan with dim_year related only to the three yearly-grain Gold tables (security, macro, regional); gold_bitcoin_treasury stays on its own date grain; gold_kpi_summary stays unrelated/standalone as the Overview page's KPI card source.
 # - Confirmed sequencing for the Power BI build: connect the 5 Gold tables, clean the Bitcoin country/date columns, build dim_year and relationships, build a dedicated Measures table, then build the Overview page before the pillar-specific pages.
 
+
+# MARKDOWN ********************
+
+# # Progress
+# 
+# **Date** 2026-08-16
+# 
+# * Reviewed the completed Gold layer before beginning Power BI and identified a semantic issue in `gold_bitcoin_treasury`: the source contained national, state, and municipal government entities sharing the same country code, while the Silver transformation had dropped the source `Name` field.
+# * Updated the Bitcoin Silver transformation to preserve and standardize `Entity_Name`, `Country_Code`, `Country_Name`, and `Government_Level`; classified United States as National, Texas as State, and Roswell, New Mexico as Municipal.
+# * Converted the Bitcoin historical `Date` field from string to a proper date type while intentionally retaining null dates for current Snapshot rows, since the CoinGecko source does not provide an as-of date.
+# * Preserved the mixed-grain Bitcoin architecture: 13 current government Snapshot records plus 6 dated El Salvador Official/Estimated treasury checkpoints, separated through `Record_Type`.
+# * Validated the corrected Bitcoin DataFrame before saving: 19 total rows, date data type confirmed, zero missing country names, 11 National Snapshot/history groups plus the expected State and Municipal Snapshot records.
+# * Overwrote `ElSalvador_02_Silver.dbo.silver_bitcoin_treasury` with the corrected schema and regenerated `ElSalvador_03_Gold.dbo.gold_bitcoin_treasury` using `overwriteSchema`.
+# * Updated the Gold KPI extraction logic to filter El Salvador’s national Snapshot using `Country_Code = "SV"`, `Country_Name = "El Salvador"`, `Government_Level = "National"`, and `Record_Type = "Snapshot"`.
+# * Rebuilt and validated `gold_kpi_summary`: Homicide Rate 1.9/100k (2024), GDP Growth 3.9059% (2025), FDI Net Inflows $763,722,779.22 (2025), and Bitcoin Treasury 7,474.37 BTC (current).
+# * Re-exported all 5 Gold tables to CSV and downloaded the refreshed files into the local Tableau CSVs folder.
+# * Created Direct Lake on OneLake semantic model `ElSalvador_Analytics_Model` from the 5 Gold tables: `gold_security_trend`, `gold_macro_trend`, `gold_bitcoin_treasury`, `gold_regional_comparison`, and `gold_kpi_summary`.
+# * Created `dim_year` with unique values from 1960–2025 and added 3 active many-to-one, single-direction relationships to the Year columns in the Security, Macro, and Regional Comparison Gold tables.
+# * Created centralized `Analytics_Measures` table, hid its technical Placeholder column, and organized report measures with documented descriptions, display folders, data formats, and hidden helper measures.
+# * Built and configured 14 DAX measures across the four analytical pillars:
+# 
+#   * Security: Latest Homicide Year, Latest Homicide Rate, and Homicide Rate Change Since 2015.
+#   * Macroeconomics: Latest GDP Growth Year, Latest GDP Growth %, Latest FDI Year, Latest FDI (USD), and FDI 5-Year Average (USD).
+#   * Bitcoin Treasury: Current BTC Holdings (El Salvador) and BTC Holdings Growth (First to Latest).
+#   * Regional Comparison: Latest Regional Homicide Comparison Year, El Salvador Regional Homicide Rank, Latest Regional GDP Comparison Year, and Regional Average GDP Growth (Excl. El Salvador).
+# * Ran a consolidated DAX QA query across all 14 measures. Confirmed: latest homicide rate 1.9 in 2024; approximately 98% reduction since 2015; GDP growth 3.91 in 2025; latest FDI $763.7M; 5-year FDI average $683.9M; current Bitcoin holdings 7,474.37 BTC; Bitcoin growth approximately 225%; regional homicide comparison year 2022 with El Salvador ranked #1; and 2025 regional GDP average of 4.1 excluding El Salvador.
+# * Prepared documentation descriptions for all 5 Gold tables; adding them and the key column descriptions in Model view is the next semantic-layer documentation step.
+# 
+# # Troubleshooting
+# 
+# * Encountered a `NameError` for `df_btc_snapshot` after a Spark session reset cleared in-memory variables. Resolved by reloading both Bronze Bitcoin tables through fully qualified `spark.table()` paths before rerunning the corrected transformation cells.
+# * Hit Fabric HTTP 430 `TooManyRequestsForCapacity` when the Gold notebook attempted to start while the Silver notebook’s Spark session was still active. Resolved by running `notebookutils.session.stop()` in the Silver notebook, waiting for capacity release, and rerunning only the affected Gold cell.
+# * Accidentally reran the CSV export loop before refreshing the Gold Bitcoin table. No table data was changed; reran the export after the Gold and KPI tables were correctly updated.
+# * Attempted to run the Gold KPI save cell before recreating `gold_kpi_summary` in the current Spark session, resulting in a `NameError`. Resolved by rerunning the KPI source-row and DataFrame-building cells before the persistent save.
+# * Confirmed that `/lakehouse/default/Files/` resolved to `ElSalvador_02_Silver/Files` because Silver is the default Lakehouse attached to `20_Gold_Aggregations`. The exports were valid and downloaded successfully; this behavior will be documented for future reruns.
+# * Fabric rejected `Measures` as a reserved calculated-table name. Renamed the centralized measure table to `Analytics_Measures`.
+# * The Bitcoin growth DAX initially failed because `FirstDate` conflicted with the DAX `FIRSTDATE()` function name. Resolved by renaming the variables to `FirstCheckpointDateValue`, `LatestCheckpointDateValue`, `FirstCheckpointHoldings`, and `LatestCheckpointHoldings`.
+# * The Fabric model canvas appeared grayed out while the invalid Bitcoin measure remained open in DAX edit mode. Recovered by canceling the invalid edit and replacing the formula with the corrected version.
+# * The DAX QA view initially displayed the sample `gold_kpi_summary` query as Result 1 of 2. Switched to Result 2 of 2 to validate the consolidated measure output.
+# 
+# # Decisions
+# 
+# * Corrected the Bitcoin schema in Silver rather than Power Query or semantic-model calculated columns. This preserves the medallion architecture: Bronze remains raw, Silver handles standardization and data quality, and Gold remains report-ready for Direct Lake.
+# * Retained the unified Bitcoin table because Snapshot and historical data support related treasury analysis, but documented that they have different grains and must be separated using explicit `Record_Type` filters.
+# * Preserved Texas and Roswell, New Mexico as legitimate CoinGecko records rather than aggregating them into the U.S. federal figure. Added `Government_Level` so national-government comparisons can explicitly filter to National records.
+# * Kept Snapshot dates null because CoinGecko does not provide an as-of date. Adding a separately captured `Snapshot_As_Of` extraction date remains a potential future enhancement.
+# * Adopted Direct Lake on OneLake for the semantic model so Power BI reads the Gold Delta tables directly without an Import refresh process.
+# * Related `dim_year` only to the three annual-grain tables. `gold_bitcoin_treasury` remains on its independent Date grain, and `gold_kpi_summary` remains disconnected.
+# * Retained `gold_kpi_summary` as the source for fixed, validated Overview-page KPI cards. Separate DAX measures support analytical pages and more advanced comparisons.
+# * Centralized all measures in `Analytics_Measures`, organized them by pillar and purpose through display folders, and hid technical helper measures after their dependent measures were completed.
+# * Stored GDP growth fields as decimal numbers rather than Power BI percentages because the source already contains percentage-point values such as 3.9. Applied Percentage formatting only to derived ratio measures such as homicide-rate change and Bitcoin-holdings growth.
+# * Defined latest-year headline measures to ignore year filters for consistent portfolio KPIs. Regional comparison years are selected based on the latest year in which El Salvador has nonblank data, preventing invalid rankings against years where El Salvador is absent.
+# * Set the next checkpoint as completing Gold table/key-column descriptions and configuration, then creating and validating the Overview report page before building the Security, Macroeconomic, Bitcoin Treasury, and Regional Comparison pages.
+

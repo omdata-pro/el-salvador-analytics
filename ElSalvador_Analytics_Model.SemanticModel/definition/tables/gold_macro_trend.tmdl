@@ -1,0 +1,55 @@
+/// Annual El Salvador macroeconomic fact table combining GDP growth and foreign direct investment net inflows. Grain: one row per country and year. The source series are outer-joined, so blank values indicate years in which a metric was unavailable.
+table gold_macro_trend
+	lineageTag: f811e46b-3001-4050-ae03-ca0f56813f8d
+	sourceLineageTag: [dbo].[gold_macro_trend]
+
+	column Country
+		dataType: string
+		lineageTag: 5e7f0d3d-dde7-4f53-ad06-026b698d53a0
+		sourceLineageTag: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 0200dd2e-d443-4a5b-a9c7-04308adcd2a2
+		sourceLineageTag: Year
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column GDP_Growth_Pct
+		dataType: double
+		lineageTag: 2155fc6f-c4ab-4926-bf47-6156b68348ea
+		sourceLineageTag: GDP_Growth_Pct
+		summarizeBy: sum
+		sourceColumn: GDP_Growth_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FDI_USD
+		dataType: double
+		lineageTag: 551cc8e2-abfa-428f-9f84-343e43a58fbf
+		sourceLineageTag: FDI_USD
+		summarizeBy: sum
+		sourceColumn: FDI_USD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition gold_macro_trend = entity
+		mode: directLake
+		source
+			entityName: gold_macro_trend
+			schemaName: dbo
+			expressionSource: 'DirectLake - ElSalvador_03_Gold'
+
+	changedProperty = Description
+

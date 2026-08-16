@@ -1,0 +1,321 @@
+/// Centralized DAX measures for the El Salvador Analytics semantic model, covering public security, macroeconomic performance, Bitcoin treasury, and Central American regional comparisons.
+table Analytics_Measures
+	lineageTag: 058f7da2-5c75-4750-b2c5-26f8f528ce4b
+
+	/// Returns the most recent year containing a nonblank homicide rate in the El Salvador security trend table. Ignores report filters so the project’s latest available security year remains consistent.
+	measure 'Latest Homicide Year' =
+			
+			MAXX(
+			    FILTER(
+			        ALL(gold_security_trend),
+			        NOT ISBLANK(gold_security_trend[Homicide_Rate_Per100k])
+			    ),
+			    gold_security_trend[Year]
+			)
+		formatString: 0
+		isHidden
+		displayFolder: Security\Helpers
+		lineageTag: 5af6d7e8-1547-4e5d-a5fa-c071b349ef79
+
+	/// Returns El Salvador’s homicide rate for the most recent year containing rate data. Uses Latest Homicide Year and ignores year filters so the headline security KPI consistently reflects the latest available observation.
+	measure 'Latest Homicide Rate' =
+			
+			VAR LatestYear = [Latest Homicide Year]
+			RETURN
+			CALCULATE(
+			    MAX(gold_security_trend[Homicide_Rate_Per100k]),
+			    REMOVEFILTERS(dim_year),
+			    FILTER(
+			        ALL(gold_security_trend),
+			        gold_security_trend[Year] = LatestYear
+			    )
+			)
+		formatString: 0.0
+		displayFolder: Security\Headline KPIs
+		lineageTag: 10f74159-3c5d-4367-814a-0d8151a91a32
+
+	/// Calculates the percentage change in El Salvador’s homicide rate from the 2015 baseline to the latest year containing rate data. Negative values represent a reduction in the homicide rate.
+	measure 'Homicide Rate Change Since 2015' =
+			
+			VAR Rate2015 =
+			    CALCULATE(
+			        MAX(gold_security_trend[Homicide_Rate_Per100k]),
+			        REMOVEFILTERS(dim_year),
+			        FILTER(
+			            ALL(gold_security_trend),
+			            gold_security_trend[Year] = 2015
+			        )
+			    )
+			VAR LatestRate = [Latest Homicide Rate]
+			RETURN
+			    DIVIDE(
+			        LatestRate - Rate2015,
+			        Rate2015
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Security\Change Metrics
+		lineageTag: 7fc1d5ab-6409-498d-a7a8-baf3ba527e17
+
+	/// Returns the most recent year containing a nonblank GDP growth value in the El Salvador macroeconomic trend table. Ignores report filters to support a consistent latest-year GDP headline measure.
+	measure 'Latest GDP Growth Year' =
+			
+			MAXX(
+			    FILTER(
+			        ALL(gold_macro_trend),
+			        NOT ISBLANK(gold_macro_trend[GDP_Growth_Pct])
+			    ),
+			    gold_macro_trend[Year]
+			)
+		formatString: 0
+		isHidden
+		displayFolder: Macroeconomics\Helpers
+		lineageTag: c0deeb59-b33f-4233-b7cc-20ae08676170
+
+	/// Returns El Salvador’s GDP growth percentage for the most recent year containing GDP growth data. Uses Latest GDP Growth Year and ignores year filters so the headline macroeconomic KPI consistently reflects the latest available observation.
+	measure 'Latest GDP Growth %' =
+			
+			VAR LatestYear = [Latest GDP Growth Year]
+			RETURN
+			CALCULATE(
+			    MAX(gold_macro_trend[GDP_Growth_Pct]),
+			    REMOVEFILTERS(dim_year),
+			    FILTER(
+			        ALL(gold_macro_trend),
+			        gold_macro_trend[Year] = LatestYear
+			    )
+			)
+		formatString: 0.0
+		displayFolder: Macroeconomics\Headline KPIs
+		lineageTag: 08646b10-e29a-43f0-9474-d6dbe60f5994
+
+	/// Returns the most recent year containing a nonblank foreign direct investment value in the El Salvador macroeconomic trend table. Ignores report filters to support consistent latest-year FDI measures.
+	measure 'Latest FDI Year' =
+			
+			MAXX(
+			    FILTER(
+			        ALL(gold_macro_trend),
+			        NOT ISBLANK(gold_macro_trend[FDI_USD])
+			    ),
+			    gold_macro_trend[Year]
+			)
+		formatString: 0
+		isHidden
+		displayFolder: Macroeconomics\Helpers
+		lineageTag: ddb62ab0-e9f7-4268-bc29-a3d9c343e244
+
+	/// Returns El Salvador’s foreign direct investment net inflows in U.S. dollars for the most recent year containing FDI data. Uses Latest FDI Year and ignores year filters so the headline macroeconomic KPI consistently reflects the latest available observation.
+	measure 'Latest FDI (USD)' =
+			
+			VAR LatestYear = [Latest FDI Year]
+			RETURN
+			CALCULATE(
+			    MAX(gold_macro_trend[FDI_USD]),
+			    REMOVEFILTERS(dim_year),
+			    FILTER(
+			        ALL(gold_macro_trend),
+			        gold_macro_trend[Year] = LatestYear
+			    )
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Macroeconomics\Headline KPIs
+		lineageTag: bcdd362a-9b68-41ca-9f00-1755c7261a80
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// Calculates El Salvador’s average annual foreign direct investment net inflows over the five-calendar-year period ending in the latest year containing FDI data. Blank FDI observations are excluded from the average.
+	measure 'FDI 5-Year Average (USD)' =
+			
+			VAR LatestYear = [Latest FDI Year]
+			RETURN
+			CALCULATE(
+			    AVERAGE(gold_macro_trend[FDI_USD]),
+			    REMOVEFILTERS(dim_year),
+			    FILTER(
+			        ALL(gold_macro_trend),
+			        gold_macro_trend[Year] >= LatestYear - 4
+			            && gold_macro_trend[Year] <= LatestYear
+			            && NOT ISBLANK(gold_macro_trend[FDI_USD])
+			    )
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Macroeconomics\Trend Metrics
+		lineageTag: f79c1c49-4767-4ac3-81f2-ec569b3ca246
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// Returns the current CoinGecko snapshot of Bitcoin held by El Salvador’s national government. Excludes historical checkpoints and subnational government entities and ignores report filters to preserve a consistent headline treasury value.
+	measure 'Current BTC Holdings (El Salvador)' =
+			
+			CALCULATE(
+			    MAX(gold_bitcoin_treasury[BTC_Holdings]),
+			    FILTER(
+			        ALL(gold_bitcoin_treasury),
+			        gold_bitcoin_treasury[Country_Code] = "SV"
+			            && gold_bitcoin_treasury[Entity_Name] = "El Salvador"
+			            && gold_bitcoin_treasury[Government_Level] = "National"
+			            && gold_bitcoin_treasury[Record_Type] = "Snapshot"
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Bitcoin Treasury\Headline KPIs
+		lineageTag: 3465caf6-383a-4a3c-8df5-48b0414decc7
+
+	/// Calculates the percentage growth in El Salvador’s national Bitcoin holdings between the first and latest dated treasury checkpoints. Uses Official and Estimated historical records, excludes the undated current Snapshot rows, and identifies endpoints by date rather than by minimum or maximum holdings.
+	measure 'BTC Holdings Growth (First to Latest)' =
+			
+			VAR HistoryRows =
+			    FILTER(
+			        ALL(gold_bitcoin_treasury),
+			        gold_bitcoin_treasury[Country_Code] = "SV"
+			            && gold_bitcoin_treasury[Entity_Name] = "El Salvador"
+			            && gold_bitcoin_treasury[Government_Level] = "National"
+			            && gold_bitcoin_treasury[Record_Type] IN { "Official", "Estimated" }
+			            && NOT ISBLANK(gold_bitcoin_treasury[Date])
+			            && NOT ISBLANK(gold_bitcoin_treasury[BTC_Holdings])
+			    )
+			VAR FirstCheckpointDateValue =
+			    MINX(
+			        HistoryRows,
+			        gold_bitcoin_treasury[Date]
+			    )
+			VAR LatestCheckpointDateValue =
+			    MAXX(
+			        HistoryRows,
+			        gold_bitcoin_treasury[Date]
+			    )
+			VAR FirstCheckpointHoldings =
+			    MAXX(
+			        FILTER(
+			            HistoryRows,
+			            gold_bitcoin_treasury[Date] = FirstCheckpointDateValue
+			        ),
+			        gold_bitcoin_treasury[BTC_Holdings]
+			    )
+			VAR LatestCheckpointHoldings =
+			    MAXX(
+			        FILTER(
+			            HistoryRows,
+			            gold_bitcoin_treasury[Date] = LatestCheckpointDateValue
+			        ),
+			        gold_bitcoin_treasury[BTC_Holdings]
+			    )
+			RETURN
+			    DIVIDE(
+			        LatestCheckpointHoldings - FirstCheckpointHoldings,
+			        FirstCheckpointHoldings
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Bitcoin Treasury\Growth Metrics
+		lineageTag: 3aa95f3e-6df3-44e3-ba36-1bd35a387990
+
+	/// Returns the most recent year in the regional comparison table for which El Salvador has a nonblank homicide rate. This ensures regional homicide rankings use a year in which El Salvador can actually be ranked.
+	measure 'Latest Regional Homicide Comparison Year' =
+			
+			MAXX(
+			    FILTER(
+			        ALL(gold_regional_comparison),
+			        gold_regional_comparison[Country] = "El Salvador"
+			            && NOT ISBLANK(gold_regional_comparison[Homicide_Rate_Per100k])
+			    ),
+			    gold_regional_comparison[Year]
+			)
+		formatString: 0
+		isHidden
+		displayFolder: Regional Comparison\Helpers
+		lineageTag: fae3c373-65c2-4804-a435-e477bfcab68e
+
+	/// Ranks El Salvador’s homicide rate against Central American countries in the latest comparison year for which El Salvador has data. Countries with blank rates are excluded. Lower homicide rates rank better, and ties use dense ranking.
+	measure 'El Salvador Regional Homicide Rank' =
+			
+			VAR ComparisonYear =
+			    [Latest Regional Homicide Comparison Year]
+			VAR CountryRates =
+			    FILTER(
+			        ADDCOLUMNS(
+			            ALL(gold_regional_comparison[Country]),
+			            "@HomicideRate",
+			                CALCULATE(
+			                    MAX(gold_regional_comparison[Homicide_Rate_Per100k]),
+			                    REMOVEFILTERS(dim_year),
+			                    REMOVEFILTERS(gold_regional_comparison[Year]),
+			                    gold_regional_comparison[Year] = ComparisonYear
+			                )
+			        ),
+			        NOT ISBLANK([@HomicideRate])
+			    )
+			VAR ElSalvadorRate =
+			    MAXX(
+			        FILTER(
+			            CountryRates,
+			            gold_regional_comparison[Country] = "El Salvador"
+			        ),
+			        [@HomicideRate]
+			    )
+			RETURN
+			    IF(
+			        ISBLANK(ElSalvadorRate),
+			        BLANK(),
+			        RANKX(
+			            CountryRates,
+			            [@HomicideRate],
+			            ElSalvadorRate,
+			            ASC,
+			            DENSE
+			        )
+			    )
+		formatString: 0
+		displayFolder: Regional Comparison\Rankings
+		lineageTag: 0af5cfeb-ecbf-451f-89ad-b0ec0d5d0496
+
+	/// Returns the most recent year in the regional comparison table for which El Salvador has a nonblank GDP growth value. Provides a consistent comparison year for regional GDP measures.
+	measure 'Latest Regional GDP Comparison Year' =
+			
+			MAXX(
+			    FILTER(
+			        ALL(gold_regional_comparison),
+			        gold_regional_comparison[Country] = "El Salvador"
+			            && NOT ISBLANK(gold_regional_comparison[GDP_Growth_Pct])
+			    ),
+			    gold_regional_comparison[Year]
+			)
+		formatString: 0
+		isHidden
+		displayFolder: Regional Comparison\Helpers
+		lineageTag: 61a6f3d2-980b-46d1-9c65-885e52dacc83
+
+	/// Calculates the unweighted average GDP growth rate of Central American comparison countries, excluding El Salvador, for the latest regional GDP comparison year. Countries with blank GDP growth values are excluded.
+	measure 'Regional Average GDP Growth (Excl. El Salvador)' =
+			
+			VAR ComparisonYear =
+			    [Latest Regional GDP Comparison Year]
+			RETURN
+			CALCULATE(
+			    AVERAGE(gold_regional_comparison[GDP_Growth_Pct]),
+			    REMOVEFILTERS(dim_year),
+			    FILTER(
+			        ALL(gold_regional_comparison),
+			        gold_regional_comparison[Year] = ComparisonYear
+			            && gold_regional_comparison[Country] <> "El Salvador"
+			            && NOT ISBLANK(gold_regional_comparison[GDP_Growth_Pct])
+			    )
+			)
+		formatString: 0.0
+		displayFolder: Regional Comparison\Benchmarks
+		lineageTag: 5fd805d6-ac6d-4b80-ad6f-94d855133ae3
+
+	/// Technical placeholder column used to create the dedicated Analytics_Measures table. Hidden because it is not intended for report development.
+	column Placeholder
+		isHidden
+		formatString: 0
+		lineageTag: e0a78e74-fb6e-4120-9b4e-db9328c3727f
+		summarizeBy: sum
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Analytics_Measures = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 6781b337dae4473d8c0dae6356e5846c
+

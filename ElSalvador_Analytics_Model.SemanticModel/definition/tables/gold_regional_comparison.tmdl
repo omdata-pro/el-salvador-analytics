@@ -1,0 +1,66 @@
+/// Annual Central American comparison fact table combining GDP growth, foreign direct investment, and homicide rates for El Salvador, Guatemala, Honduras, Nicaragua, Costa Rica, Panama, and Belize. Grain: one row per country and year. Blank values reflect source-data availability.
+table gold_regional_comparison
+	lineageTag: ce3625c8-50e0-40fe-a602-124ce1cd008b
+	sourceLineageTag: [dbo].[gold_regional_comparison]
+
+	column Country
+		dataType: string
+		lineageTag: 01cf1f1c-baaa-420d-8e9d-465638e4a4da
+		sourceLineageTag: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: cdb04d73-abd5-4416-b139-d83c17f9475c
+		sourceLineageTag: Year
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column GDP_Growth_Pct
+		dataType: double
+		lineageTag: c71898e6-3833-41f0-b490-f7afccffcfb0
+		sourceLineageTag: GDP_Growth_Pct
+		summarizeBy: sum
+		sourceColumn: GDP_Growth_Pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FDI_USD
+		dataType: double
+		lineageTag: b1662d98-2c87-40c5-a9f1-fa9c61a9324d
+		sourceLineageTag: FDI_USD
+		summarizeBy: sum
+		sourceColumn: FDI_USD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Homicide_Rate_Per100k
+		dataType: double
+		lineageTag: 49fba7ee-7d60-488c-b75a-ef2f4a5f507f
+		sourceLineageTag: Homicide_Rate_Per100k
+		summarizeBy: sum
+		sourceColumn: Homicide_Rate_Per100k
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition gold_regional_comparison = entity
+		mode: directLake
+		source
+			entityName: gold_regional_comparison
+			schemaName: dbo
+			expressionSource: 'DirectLake - ElSalvador_03_Gold'
+
+	changedProperty = Description
+

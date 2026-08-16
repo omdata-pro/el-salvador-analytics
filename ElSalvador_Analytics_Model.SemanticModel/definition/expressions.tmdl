@@ -1,0 +1,9 @@
+expression 'DirectLake - ElSalvador_03_Gold' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/54e503e8-ffac-4107-9d85-2a67491b6def/06bd0ffa-add5-40a5-9f6d-b81355c6e8ad", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: 579e3601-c561-4236-b0e7-2e785547877f
+
+	annotation PBI_IncludeFutureArtifacts = False
+

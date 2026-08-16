@@ -1,0 +1,64 @@
+/// Annual El Salvador public-security fact table combining World Bank/UNODC homicide-rate data with documented manually sourced annual homicide totals. Grain: one row per country and year. Supports long-term security trends and latest-year security KPIs; metric availability varies by year.
+table gold_security_trend
+	lineageTag: 443ddb04-7640-43aa-9145-d9a285b84167
+	sourceLineageTag: [dbo].[gold_security_trend]
+
+	column Country
+		dataType: string
+		lineageTag: fcc5d80c-e0e9-4c2d-8d47-72fde742ba70
+		sourceLineageTag: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 58bbe919-7457-4d22-8389-f68bbb1bb576
+		sourceLineageTag: Year
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Homicide_Rate_Per100k
+		dataType: double
+		lineageTag: c73c8995-cff4-45b0-830e-234f1a9f418c
+		sourceLineageTag: Homicide_Rate_Per100k
+		summarizeBy: sum
+		sourceColumn: Homicide_Rate_Per100k
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Homicide_Count
+		dataType: double
+		lineageTag: ad1cb4df-6b40-49f2-99e8-670de2de5e68
+		sourceLineageTag: Homicide_Count
+		summarizeBy: sum
+		sourceColumn: Homicide_Count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Source
+		dataType: string
+		lineageTag: 06399ead-9081-4bf6-9b9c-cf1cabf174f3
+		sourceLineageTag: Source
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_security_trend = entity
+		mode: directLake
+		source
+			entityName: gold_security_trend
+			schemaName: dbo
+			expressionSource: 'DirectLake - ElSalvador_03_Gold'
+
+	changedProperty = Description
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "ElSalvador_Analytics_Model"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "86101f5e-c1ec-81f6-4068-6c7d478e67bd"
+  }
+}

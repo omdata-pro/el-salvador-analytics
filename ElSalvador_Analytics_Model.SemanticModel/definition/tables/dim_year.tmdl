@@ -1,0 +1,24 @@
+/// Shared year dimension containing one unique row per calendar year from 1960 through 2025. Provides consistent year filtering across the security, macroeconomic, and Central American regional comparison tables. It is intentionally unrelated to the Bitcoin treasury and KPI summary tables because those tables use different analytical grains.
+table dim_year
+	lineageTag: 7a14c362-ddd6-4cf0-9797-f3c9c3f6aca6
+
+	column Year
+		formatString: 0
+		lineageTag: e869b535-2391-4d72-9c55-fc3bb6534ec0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_year = calculated
+		mode: import
+		source =
+				
+				SELECTCOLUMNS(
+				    GENERATESERIES(1960, 2025, 1),
+				    "Year", [Value]
+				)
+
+	annotation PBI_Id = dc5172edb7094f8a826516628f7df4f4
+

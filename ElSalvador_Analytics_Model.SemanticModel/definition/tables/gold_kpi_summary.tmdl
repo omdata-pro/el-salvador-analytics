@@ -1,0 +1,61 @@
+/// Disconnected four-row summary table containing the validated latest headline value, unit, as-of period, and source for Security, GDP Growth, FDI Net Inflows, and Bitcoin Treasury. Designed for Overview-page KPI cards and intentionally does not respond to year or country filters.
+table gold_kpi_summary
+	lineageTag: 90f3c854-9b58-444b-85ae-73774ff8e49e
+	sourceLineageTag: [dbo].[gold_kpi_summary]
+
+	column Metric
+		dataType: string
+		lineageTag: f68efd34-1414-4427-a550-8b6a11049794
+		sourceLineageTag: Metric
+		summarizeBy: none
+		sourceColumn: Metric
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		lineageTag: a09fba9f-eaf3-4e32-ae3e-15bac33e0b7e
+		sourceLineageTag: Value
+		summarizeBy: sum
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Unit
+		dataType: string
+		lineageTag: 4e78a177-6750-44ad-9fe7-0b23deef3ee0
+		sourceLineageTag: Unit
+		summarizeBy: none
+		sourceColumn: Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column As_Of
+		dataType: string
+		lineageTag: 69f51801-a243-4d5b-a982-815c8767c414
+		sourceLineageTag: As_Of
+		summarizeBy: none
+		sourceColumn: As_Of
+
+		annotation SummarizationSetBy = Automatic
+
+	column Source
+		dataType: string
+		lineageTag: bd11e37b-779a-49f6-a805-4816d113b854
+		sourceLineageTag: Source
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_kpi_summary = entity
+		mode: directLake
+		source
+			entityName: gold_kpi_summary
+			schemaName: dbo
+			expressionSource: 'DirectLake - ElSalvador_03_Gold'
+
+	changedProperty = Description
+

@@ -1,0 +1,120 @@
+/// Bitcoin treasury fact table combining two analytical grains: current government-entity snapshots and dated El Salvador treasury checkpoints. Snapshot and historical records must be separated using Record_Type. Entity_Name and Government_Level distinguish national, state, and municipal holdings; Snapshot dates are intentionally blank because the source provides no as-of date.
+table gold_bitcoin_treasury
+	lineageTag: 2783ecfc-6a40-4284-80f9-62e516afc37e
+	sourceLineageTag: [dbo].[gold_bitcoin_treasury]
+
+	column Entity_Name
+		dataType: string
+		lineageTag: 72126e80-403f-442e-8e5e-4925a1d8fbb6
+		sourceLineageTag: Entity_Name
+		summarizeBy: none
+		sourceColumn: Entity_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country_Code
+		dataType: string
+		lineageTag: 44d88bcd-5a4d-459a-8247-a941beacef6a
+		sourceLineageTag: Country_Code
+		summarizeBy: none
+		sourceColumn: Country_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country_Name
+		dataType: string
+		lineageTag: e5d6f381-ba67-495b-83f6-b170fa060c6e
+		sourceLineageTag: Country_Name
+		summarizeBy: none
+		sourceColumn: Country_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Government_Level
+		dataType: string
+		lineageTag: 201d7deb-49ea-4f13-8f3c-47ff9050b852
+		sourceLineageTag: Government_Level
+		summarizeBy: none
+		sourceColumn: Government_Level
+
+		annotation SummarizationSetBy = Automatic
+
+	column Record_Type
+		dataType: string
+		lineageTag: dde93413-4a82-4ee2-a360-8bf9ae7106f1
+		sourceLineageTag: Record_Type
+		summarizeBy: none
+		sourceColumn: Record_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5fe1956e-fab4-4412-9168-01a4d2553929
+		sourceLineageTag: Date
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column BTC_Holdings
+		dataType: double
+		lineageTag: 9f73118d-ec33-48ca-b98b-47de40909cd3
+		sourceLineageTag: BTC_Holdings
+		summarizeBy: sum
+		sourceColumn: BTC_Holdings
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Value_USD
+		dataType: double
+		lineageTag: 52875a5e-a5b7-4da9-9459-43dfd8173604
+		sourceLineageTag: Value_USD
+		summarizeBy: sum
+		sourceColumn: Value_USD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Pct_Of_Total_Supply
+		dataType: double
+		lineageTag: 58b4afc1-821f-4b33-aaa3-e4357bec3d63
+		sourceLineageTag: Pct_Of_Total_Supply
+		summarizeBy: sum
+		sourceColumn: Pct_Of_Total_Supply
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Source
+		dataType: string
+		lineageTag: de98e926-1803-45b2-b486-8e8343c89a30
+		sourceLineageTag: Source
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Notes
+		dataType: string
+		lineageTag: ddedc088-894d-47e4-97ad-0cab06512c65
+		sourceLineageTag: Notes
+		summarizeBy: none
+		sourceColumn: Notes
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_bitcoin_treasury = entity
+		mode: directLake
+		source
+			entityName: gold_bitcoin_treasury
+			schemaName: dbo
+			expressionSource: 'DirectLake - ElSalvador_03_Gold'
+
+	changedProperty = Description
+
