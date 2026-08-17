@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "ElSalvador_Analytics_Report"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "5ac9614b-d689-8b36-4dde-c5caf590ba25"
+  }
+}

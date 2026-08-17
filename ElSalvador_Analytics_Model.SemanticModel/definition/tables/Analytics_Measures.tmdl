@@ -303,6 +303,20 @@ table Analytics_Measures
 		displayFolder: Regional Comparison\Benchmarks
 		lineageTag: 5fd805d6-ac6d-4b80-ad6f-94d855133ae3
 
+	/// Displays the most recent successful Gold-layer load date recorded by 20_Gold_Aggregations. Updates whenever the Gold notebook completes successfully.
+	measure 'Last Updated Label' =
+			
+			VAR LastLoadDate =
+			    MAX(gold_refresh_metadata[Last_Updated_Date])
+			RETURN
+			    IF(
+			        ISBLANK(LastLoadDate),
+			        "Last updated: unavailable",
+			        "Last updated: " & FORMAT(LastLoadDate, "MMM d, yyyy")
+			    )
+		displayFolder: Report Metadata\Labels
+		lineageTag: 69fd3b98-a7f0-4f53-a976-b9fb44ae3ca2
+
 	/// Technical placeholder column used to create the dedicated Analytics_Measures table. Hidden because it is not intended for report development.
 	column Placeholder
 		isHidden

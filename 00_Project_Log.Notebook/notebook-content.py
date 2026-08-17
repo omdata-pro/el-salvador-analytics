@@ -511,3 +511,40 @@
 # * Defined latest-year headline measures to ignore year filters for consistent portfolio KPIs. Regional comparison years are selected based on the latest year in which El Salvador has nonblank data, preventing invalid rankings against years where El Salvador is absent.
 # * Set the next checkpoint as completing Gold table/key-column descriptions and configuration, then creating and validating the Overview report page before building the Security, Macroeconomic, Bitcoin Treasury, and Regional Comparison pages.
 
+
+# MARKDOWN ********************
+
+# # Progress
+# 
+# **Date** 2026-08-17
+# 
+# - Finalized and approved the Power BI Overview page proof of concept: a clean light canvas with a muted navy header, vertical KPI layout, right-aligned navigation area, Year dropdown, and dynamic last-updated label.
+# - Created and saved `ElSalvador_Analytics_Report`, connected to the existing `ElSalvador_Analytics_Model`, and renamed the first report page from Page 1 to Overview.
+# - Configured the Overview canvas as 16:9 (1280 × 720) with a light `#F7F8FA` background.
+# - Built the report header using the approved muted navy color `#2F4F7F`, including the El Salvador Analytics logo, report title, and “National Transformation at a Glance” subtitle.
+# - Added a standard dropdown Year slicer using `dim_year[Year]`, enabled single selection, and excluded the blank value through a visual-level filter.
+# - Created a transparent PNG version of the El Salvador Analytics logo with a white circular interior so it displays cleanly against the navy header.
+# - Added `gold_refresh_metadata` to `20_Gold_Aggregations`. The table records the model name, successful execution timestamp in UTC, and the corresponding Central Time load date.
+# - Wrote and validated `gold_refresh_metadata` as a one-row Delta table in `ElSalvador_03_Gold.dbo`.
+# - Added `gold_refresh_metadata` to the Direct Lake semantic model as a disconnected report-metadata table.
+# - Created the `Last Updated Label` DAX measure in `Analytics_Measures`, formatted as “Last updated: MMM d, yyyy,” and organized it under `Report Metadata\Labels`.
+# - Replaced the static report date text with a dynamic card driven by `Last Updated Label`. The Overview header now displays “Last updated: Aug 17, 2026” and will update whenever the Gold notebook metadata cell runs successfully.
+# 
+# # Troubleshooting
+# 
+# - Initially created the wrong Year slicer style, which displayed years as buttons. Deleted it and recreated a standard slicer, then changed its style to Dropdown.
+# - The Year slicer displayed a `(Blank)` option even though `dim_year` contained valid years. Removed it by applying a visual-level filter requiring Year to be nonblank.
+# - The uploaded logo continued displaying a white rectangular background because Power BI cached an earlier image version. Resolved by creating a genuinely transparent PNG, assigning it a unique filename, deleting the existing image visual, and uploading the new file.
+# - The dynamic metadata table did not immediately appear in the semantic model’s table-selection window. Refreshed the available table list, selected `gold_refresh_metadata`, and confirmed the model update.
+# - The new Card visual displayed both the dynamic value and the technical measure label. Disabled the Card’s Label setting so only the user-facing dynamic date remains.
+# - The Card appeared to have a white background because it was partially positioned outside the navy header and because Power BI separates the visual-level background from the internal Card background. Disabled both background layers, removed the divider and border, corrected the value transparency, and moved the Card fully inside the header.
+# 
+# # Decisions
+# 
+# - Approved the light, professional Power BI proof of concept rather than the previously suggested dark fintech theme.
+# - Established `#2F4F7F` as the primary report-header color and `#F7F8FA` as the primary report-canvas color.
+# - Confirmed that the report’s Last Updated date represents the latest successful Gold-layer metadata execution, not the date or time a user opens the report.
+# - Stored the Last Updated date in a disconnected metadata table so it does not affect analytical relationships or report filter context.
+# - Standardized the report header as a reusable page shell containing the logo, title, subtitle, Year slicer, and dynamic Last Updated label.
+# - Confirmed the next report-building sequence: add the right-aligned page navigation menu, duplicate the approved page shell for the remaining report pages, and then build the Overview KPI cards and supporting visuals.
+

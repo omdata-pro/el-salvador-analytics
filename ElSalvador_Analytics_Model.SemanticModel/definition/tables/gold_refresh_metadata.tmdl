@@ -1,0 +1,40 @@
+table gold_refresh_metadata
+	lineageTag: ccef61cd-0f83-47a7-9756-68dd7733a36d
+	sourceLineageTag: [dbo].[gold_refresh_metadata]
+
+	column Model_Name
+		dataType: string
+		lineageTag: e11356c6-253a-4ab3-890a-3bcf33026381
+		sourceLineageTag: Model_Name
+		summarizeBy: none
+		sourceColumn: Model_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Last_Updated_UTC
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3daa607c-9a02-4f41-b619-35878b32516c
+		sourceLineageTag: Last_Updated_UTC
+		summarizeBy: none
+		sourceColumn: Last_Updated_UTC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Last_Updated_Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c09aa0f9-816f-494d-97dc-3a930ad60cf1
+		sourceLineageTag: Last_Updated_Date
+		summarizeBy: none
+		sourceColumn: Last_Updated_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_refresh_metadata = entity
+		mode: directLake
+		source
+			entityName: gold_refresh_metadata
+			schemaName: dbo
+			expressionSource: 'DirectLake - ElSalvador_03_Gold'
+

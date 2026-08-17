@@ -132,3 +132,25 @@ notebookutils.session.stop()
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
+
+# CELL ********************
+
+from pyspark.sql import functions as F; gold_refresh_metadata = spark.range(1).select(F.lit("ElSalvador_Analytics").alias("Model_Name"), F.current_timestamp().alias("Last_Updated_UTC"), F.to_date(F.from_utc_timestamp(F.current_timestamp(), "America/Chicago")).alias("Last_Updated_Date")); gold_refresh_metadata.write.format("delta").mode("overwrite").saveAsTable("ElSalvador_03_Gold.dbo.gold_refresh_metadata"); spark.read.table("ElSalvador_03_Gold.dbo.gold_refresh_metadata").show(truncate=False)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+notebookutils.session.stop()
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }

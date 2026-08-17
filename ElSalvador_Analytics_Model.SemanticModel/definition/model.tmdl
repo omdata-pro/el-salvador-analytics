@@ -19,4 +19,5 @@ ref table gold_security_trend
 ref table gold_regional_comparison
 ref table dim_year
 ref table Analytics_Measures
+ref table gold_refresh_metadata
 
