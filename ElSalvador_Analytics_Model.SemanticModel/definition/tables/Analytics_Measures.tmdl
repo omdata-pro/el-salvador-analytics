@@ -317,6 +317,28 @@ table Analytics_Measures
 		displayFolder: Report Metadata\Labels
 		lineageTag: 69fd3b98-a7f0-4f53-a976-b9fb44ae3ca2
 
+	measure 'Homicide KPI Period' = FORMAT([Latest Homicide Year], "0")
+		displayFolder: Security\Context Labels
+		lineageTag: 57869e7e-f4aa-4abe-b11e-4460a4ae0e78
+
+	measure 'GDP Growth KPI Period' =
+			
+			FORMAT([Latest GDP Growth Year], "0")
+		displayFolder: Macroeconomics\Context Labels
+		lineageTag: 87f82db3-e3a5-4817-8e08-2e1a40394911
+
+	measure 'FDI KPI Period' =
+			
+			FORMAT([Latest FDI Year], "0")
+		displayFolder: Macroeconomics\Context Labels
+		lineageTag: f1cffcd7-ba0f-4a17-9340-b50280bc911a
+
+	measure 'Bitcoin KPI Period' =
+			
+			"Current"
+		displayFolder: Bitcoin Treasury\Context Labels
+		lineageTag: 7ecd86f4-dd4e-483f-a8fa-3dd4cccac0d3
+
 	/// Technical placeholder column used to create the dedicated Analytics_Measures table. Hidden because it is not intended for report development.
 	column Placeholder
 		isHidden

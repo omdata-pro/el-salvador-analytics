@@ -548,3 +548,40 @@
 # - Standardized the report header as a reusable page shell containing the logo, title, subtitle, Year slicer, and dynamic Last Updated label.
 # - Confirmed the next report-building sequence: add the right-aligned page navigation menu, duplicate the approved page shell for the remaining report pages, and then build the Overview KPI cards and supporting visuals.
 
+
+# MARKDOWN ********************
+
+# # Progress
+# 
+# **Date** 2026-08-20
+# 
+# - Finalized the Overview page navigation by creating five report pages—Overview, Security, Macroeconomics, Bitcoin Treasury, and Regional Comparison—and configuring a right-aligned page navigator beneath the report header.
+# - Built and formatted four vertical Overview KPI cards using semantic-model measures: Latest Homicide Rate (1.9 per 100k, 2024), Latest GDP Growth (3.9%, 2025), Latest FDI Net Inflows ($763.7M, 2025), and Current Bitcoin Holdings (7,474.37 BTC).
+# - Added the appropriate contextual year or status beneath each KPI using the existing helper measures: Latest Homicide Year, Latest GDP Growth Year, Latest FDI Year, and Current.
+# - Applied the approved visual palette across the KPI cards: blue for Security, teal for Macroeconomics and FDI, and orange for Bitcoin Treasury.
+# - Added and aligned four clean transparent icons within the KPI cards: security shield, GDP trend, FDI globe, and Bitcoin symbol.
+# - Built and formatted the Homicide Rate Trend line chart using gold_security_trend, filtered to 2015–2024, with chronological Year values, markers, and one-decimal data labels.
+# - Built and formatted the GDP Growth & FDI Net Inflows combination chart using gold_macro_trend, with FDI displayed as columns and GDP growth displayed as a secondary-axis line.
+# - Corrected the GDP secondary Y-axis range to -10 through 12 so the negative 2020 GDP growth value is represented accurately.
+# - Changed the macroeconomic chart's X-axis to Continuous to prevent truncated year labels within the available Overview canvas space.
+# - Renamed the combo-chart legend entries to FDI Net Inflows and GDP Growth (%) for clear business-facing presentation.
+# - Confirmed the Overview page now has a completed header, dynamic year slicer, dynamic last-updated label, page navigation, four KPI cards, and two primary trend visuals.
+# 
+# # Troubleshooting
+# 
+# - Transparent icon files initially appeared with a checkerboard pattern after upload. Confirmed that the checkerboard represented transparency in the image viewer and replaced the affected files with clean transparent PNG versions for consistent rendering in Power BI.
+# - KPI cards initially displayed unwanted outer white containers. Resolved by disabling the multi-card layout background while retaining each individual card's white background and formatting.
+# - Custom number formats initially produced duplicated units such as “MM,” repeated “BTC,” or overly large unscaled FDI values. Resolved by coordinating each measure's data format with the card's Display units setting and using separate reference labels where smaller unit text was required.
+# - The Bitcoin KPI initially displayed an abbreviated 7.47K value. Updated its formatting to display the full 7,474.37 BTC balance.
+# - The Homicide chart's Y-axis interval could not be manually forced to increments of 20 because the native Power BI line chart automatically determines major tick intervals. Retained the automatic scale after confirming the trend and data labels remained readable.
+# - The macroeconomic combo chart initially displayed too many years, an incorrectly clipped negative GDP value, and truncated X-axis labels. Resolved by filtering to the relevant reporting period, sorting chronologically, setting the secondary-axis range to -10 through 12, and using a Continuous X-axis.
+# 
+# # Decisions
+# 
+# - Kept the Overview page intentionally concise: four headline KPI cards on the left and four summary visuals in the main reporting area.
+# - Retained the vertically stacked KPI-card layout because it creates a clear visual hierarchy and leaves sufficient room for analytical charts.
+# - Used separate icon image objects and reference labels rather than embedding all content into one card value, allowing the icons and units such as “per 100k” and “BTC” to be styled independently.
+# - Accepted Power BI's automatic Homicide chart Y-axis intervals rather than introducing a workaround that would add unnecessary complexity.
+# - Chose a Continuous X-axis for the compact Overview macroeconomic chart; the detailed Macroeconomics page can display more granular annual labels.
+# - Next session will begin by building the Bitcoin Treasury Holdings line chart below the Homicide chart, followed by the Regional Comparison chart in the remaining lower-right area.
+

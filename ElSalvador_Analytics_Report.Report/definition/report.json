@@ -24,6 +24,19 @@
           }
         }
       }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
     ]
   },
   "resourcePackages": [
@@ -43,8 +56,28 @@
       "type": "RegisteredResources",
       "items": [
         {
+          "name": "bitcoin-treasury-clean30118779759527226.png",
+          "path": "bitcoin-treasury-clean30118779759527226.png",
+          "type": "Image"
+        },
+        {
           "name": "ElSalvador_Analytics_Logo_Circ21706239427001028.png",
           "path": "ElSalvador_Analytics_Logo_Circ21706239427001028.png",
+          "type": "Image"
+        },
+        {
+          "name": "fdi-globe-clean9780821818866395.png",
+          "path": "fdi-globe-clean9780821818866395.png",
+          "type": "Image"
+        },
+        {
+          "name": "gdp-growth-clean6266569051193469.png",
+          "path": "gdp-growth-clean6266569051193469.png",
+          "type": "Image"
+        },
+        {
+          "name": "Homicide_icon8397038472628342.png",
+          "path": "Homicide_icon8397038472628342.png",
           "type": "Image"
         }
       ]
