@@ -220,7 +220,6 @@ table Analytics_Measures
 			    gold_regional_comparison[Year]
 			)
 		formatString: 0
-		isHidden
 		displayFolder: Regional Comparison\Helpers
 		lineageTag: fae3c373-65c2-4804-a435-e477bfcab68e
 
@@ -338,6 +337,37 @@ table Analytics_Measures
 			"Current"
 		displayFolder: Bitcoin Treasury\Context Labels
 		lineageTag: 7ecd86f4-dd4e-483f-a8fa-3dd4cccac0d3
+
+	/// Returns the percentage reduction in El Salvador’s homicide rate from 2015 to the latest year containing nonblank homicide-rate data.
+	measure 'Homicide Rate Reduction Since 2015' =
+			
+			ABS([Homicide Rate Change Since 2015])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Security\Change Metrics
+		lineageTag: 15ec17b3-1454-4867-9865-7d9adfb46298
+
+	measure 'Current BTC Value (USD)' =
+			
+			CALCULATE(
+			    MAX(gold_bitcoin_treasury[Value_USD]),
+			    FILTER(
+			        ALL(gold_bitcoin_treasury),
+			        gold_bitcoin_treasury[Country_Code] = "SV"
+			            && gold_bitcoin_treasury[Entity_Name] = "El Salvador"
+			            && gold_bitcoin_treasury[Government_Level] = "National"
+			            && gold_bitcoin_treasury[Record_Type] = "Snapshot"
+			    )
+			)
+		formatString: \$#,0.0;(\$#,0.0);\$#,0.0
+		displayFolder: Bitcoin Treasury\Headline KPIs
+		lineageTag: 9dc56285-64c4-488a-befc-961fd3c20f23
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure Measure
+		lineageTag: 1ebc45a5-b9d1-4b35-af81-c9e213aa6721
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
 
 	/// Technical placeholder column used to create the dedicated Analytics_Measures table. Hidden because it is not intended for report development.
 	column Placeholder

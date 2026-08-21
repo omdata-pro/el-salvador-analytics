@@ -5,185 +5,6 @@
   "displayOption": "FitToPage",
   "height": 720,
   "width": 1280,
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "26140c46789eaeaaa465",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold_macro_trend"
-              }
-            },
-            "Property": "Year"
-          }
-        },
-        "type": "Advanced",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "g",
-              "Entity": "gold_macro_trend",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Not": {
-                  "Expression": {
-                    "Comparison": {
-                      "ComparisonKind": 0,
-                      "Left": {
-                        "Column": {
-                          "Expression": {
-                            "SourceRef": {
-                              "Source": "g"
-                            }
-                          },
-                          "Property": "Year"
-                        }
-                      },
-                      "Right": {
-                        "Literal": {
-                          "Value": "null"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        },
-        "howCreated": "User"
-      },
-      {
-        "name": "c18e51ed69c9d1058322",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold_macro_trend"
-              }
-            },
-            "Property": "GDP_Growth_Pct"
-          }
-        },
-        "type": "Advanced",
-        "howCreated": "User"
-      },
-      {
-        "name": "37818edf561ab26882c5",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold_macro_trend"
-              }
-            },
-            "Property": "FDI_USD"
-          }
-        },
-        "type": "Advanced",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "g",
-              "Entity": "gold_macro_trend",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Not": {
-                  "Expression": {
-                    "Comparison": {
-                      "ComparisonKind": 0,
-                      "Left": {
-                        "Column": {
-                          "Expression": {
-                            "SourceRef": {
-                              "Source": "g"
-                            }
-                          },
-                          "Property": "FDI_USD"
-                        }
-                      },
-                      "Right": {
-                        "Literal": {
-                          "Value": "null"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        },
-        "howCreated": "User"
-      },
-      {
-        "name": "82c9b0a01161f397d22b",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold_macro_trend"
-              }
-            },
-            "Property": "Country"
-          }
-        },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "g",
-              "Entity": "gold_macro_trend",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "g"
-                          }
-                        },
-                        "Property": "Country"
-                      }
-                    }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'El Salvador'"
-                        }
-                      }
-                    ]
-                  ]
-                }
-              }
-            }
-          ]
-        },
-        "howCreated": "User"
-      }
-    ]
-  },
   "objects": {
     "background": [
       {
@@ -208,6 +29,91 @@
           }
         }
       }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "349L"
+              }
+            }
+          }
+        }
+      }
     ]
-  }
+  },
+  "visualInteractions": [
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "8a8451d1665f9d93b222",
+      "type": "DataFilter"
+    },
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "857067ffff5907bdd1dc",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "80dc628749641642272b",
+      "type": "DataFilter"
+    },
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "5d89b81d4a36f9cb0e2f",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "f3f33139c51a3506f047",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "97beab446b047ceda7d9",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "a071e45263ae393d43a0",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "ccaef89ad53ee2e10766",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "997db94dc9cb8fedcde1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "380c472896ede561a0c2",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "a51f862a1459fc2f9136",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "995db5274fb075c65c22",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "03870272a3c1938f274a",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6de04976f2fc6e70a2e9",
+      "target": "a86dcdb9a3cec51d212e",
+      "type": "NoFilter"
+    }
+  ]
 }

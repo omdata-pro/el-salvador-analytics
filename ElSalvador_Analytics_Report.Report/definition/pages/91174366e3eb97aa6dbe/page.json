@@ -1,0 +1,89 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "91174366e3eb97aa6dbe",
+  "displayName": "Macroeconomics",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#F7F8FA'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "349L"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "9085d05b1bdb543f1488",
+      "target": "2c0f4d05d188ed8a3b3e",
+      "type": "DataFilter"
+    },
+    {
+      "source": "9085d05b1bdb543f1488",
+      "target": "b4d1c1dcaeded5ce40c5",
+      "type": "NoFilter"
+    },
+    {
+      "source": "9085d05b1bdb543f1488",
+      "target": "95300362265ff26a52c1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "9085d05b1bdb543f1488",
+      "target": "485d94908913af14557f",
+      "type": "NoFilter"
+    },
+    {
+      "source": "9085d05b1bdb543f1488",
+      "target": "77d74d848a005b98d021",
+      "type": "NoFilter"
+    },
+    {
+      "source": "9085d05b1bdb543f1488",
+      "target": "c078a9674c27f28e4748",
+      "type": "NoFilter"
+    },
+    {
+      "source": "9085d05b1bdb543f1488",
+      "target": "d8436f1ee70c9bd37039",
+      "type": "NoFilter"
+    },
+    {
+      "source": "9085d05b1bdb543f1488",
+      "target": "d831208f52eda441ed78",
+      "type": "NoFilter"
+    }
+  ]
+}

@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
-  "name": "8a8451d1665f9d93b222",
+  "name": "857067ffff5907bdd1dc",
   "position": {
     "x": 364.46280991735534,
-    "y": 174.63561232156272,
-    "z": 21000,
+    "y": 449.09090909090907,
+    "z": 23000,
     "height": 270.90909090909088,
-    "width": 452.72727272727269,
-    "tabOrder": 21000
+    "width": 453.63636363636363,
+    "tabOrder": 23000
   },
   "visual": {
     "visualType": "lineChart",
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "gold_security_trend"
+                      "Entity": "gold_bitcoin_treasury"
                     }
                   },
-                  "Property": "Year"
+                  "Property": "Date"
                 }
               },
-              "queryRef": "gold_security_trend.Year",
-              "nativeQueryRef": "Count of Year",
+              "queryRef": "gold_bitcoin_treasury.Date",
+              "nativeQueryRef": "Date",
               "active": true
             }
           ]
@@ -41,17 +41,17 @@
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "gold_security_trend"
+                          "Entity": "gold_bitcoin_treasury"
                         }
                       },
-                      "Property": "Homicide_Rate_Per100k"
+                      "Property": "BTC_Holdings"
                     }
                   },
                   "Function": 4
                 }
               },
-              "queryRef": "Sum(gold_security_trend.Homicide_Rate_Per100k)",
-              "nativeQueryRef": "Max of Homicide_Rate_Per100k"
+              "queryRef": "Sum(gold_bitcoin_treasury.BTC_Holdings)",
+              "nativeQueryRef": "Max of BTC_Holdings"
             }
           ]
         }
@@ -63,15 +63,16 @@
               "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "gold_security_trend"
+                    "Entity": "gold_bitcoin_treasury"
                   }
                 },
-                "Property": "Year"
+                "Property": "Date"
               }
             },
             "direction": "Ascending"
           }
-        ]
+        ],
+        "isDefaultSort": true
       }
     },
     "objects": {
@@ -83,16 +84,9 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1F5FBF'"
+                      "Value": "'#F28C28'"
                     }
                   }
-                }
-              }
-            },
-            "lineChartType": {
-              "expr": {
-                "Literal": {
-                  "Value": "'linear'"
                 }
               }
             },
@@ -110,107 +104,17 @@
                 }
               }
             },
+            "lineChartType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'linear'"
+                }
+              }
+            },
             "markerSize": {
               "expr": {
                 "Literal": {
                   "Value": "4D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "categoryAxis": [
-        {
-          "properties": {
-            "axisType": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Categorical'"
-                }
-              }
-            },
-            "showAxisTitle": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "concatenateLabels": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "valueAxis": [
-        {
-          "properties": {
-            "start": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
-              }
-            },
-            "titleColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#5B6B82'"
-                    }
-                  }
-                }
-              }
-            },
-            "gridlineColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E5EAF0'"
-                    }
-                  }
-                }
-              }
-            },
-            "titleText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Homicides per 100k'"
-                }
-              }
-            },
-            "end": {
-              "expr": {
-                "Literal": {
-                  "Value": "150D"
-                }
-              }
-            },
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "gridlineShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9D"
                 }
               }
             }
@@ -226,21 +130,131 @@
                   "Value": "true"
                 }
               }
-            },
-            "enableValueDataLabel": {
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "1000D"
                 }
               }
             },
-            "labelPrecision": {
+            "titleText": {
               "expr": {
                 "Literal": {
-                  "Value": "1L"
+                  "Value": "'Bitcoin Holdings (BTC)'"
+                }
+              }
+            },
+            "titleColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "axisType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Scalar'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "FillRule": {
+                      "Input": {
+                        "Aggregation": {
+                          "Expression": {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Entity": "gold_bitcoin_treasury"
+                                }
+                              },
+                              "Property": "Date"
+                            }
+                          },
+                          "Function": 5
+                        }
+                      },
+                      "FillRule": {
+                        "linearGradient2": {
+                          "min": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'minColor'"
+                              }
+                            }
+                          },
+                          "max": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#E66C37'"
+                              }
+                            }
+                          },
+                          "nullColoringStrategy": {
+                            "strategy": {
+                              "Literal": {
+                                "Value": "'asZero'"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "roles": [
+                  "Category"
+                ]
+              }
+            ]
           }
         }
       ]
@@ -252,7 +266,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Homicide Rate Trend'"
+                  "Value": "'Bitcoin Treasury Holdings'"
                 }
               }
             },
@@ -270,6 +284,13 @@
                 }
               }
             },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "13D"
+                }
+              }
+            },
             "fontColor": {
               "solid": {
                 "color": {
@@ -278,13 +299,6 @@
                       "Value": "'#172B4D'"
                     }
                   }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "13D"
                 }
               }
             }
@@ -304,7 +318,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Homicides per 100,000 inhabitants'"
+                  "Value": "'Cumulative national Bitcoin holdings'"
                 }
               }
             },
@@ -328,15 +342,15 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "16cb5b27369862df9425",
+        "name": "289066fa79cf60818c11",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "gold_security_trend"
+                "Entity": "gold_bitcoin_treasury"
               }
             },
-            "Property": "Year"
+            "Property": "Date"
           }
         },
         "type": "Advanced",
@@ -345,109 +359,7 @@
           "From": [
             {
               "Name": "g",
-              "Entity": "gold_security_trend",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Comparison": {
-                  "ComparisonKind": 2,
-                  "Left": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Source": "g"
-                        }
-                      },
-                      "Property": "Year"
-                    }
-                  },
-                  "Right": {
-                    "Literal": {
-                      "Value": "2015L"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "name": "521f0ac8f3f764350c4b",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold_security_trend"
-              }
-            },
-            "Property": "Country"
-          }
-        },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "g",
-              "Entity": "gold_security_trend",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "g"
-                          }
-                        },
-                        "Property": "Country"
-                      }
-                    }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'El Salvador'"
-                        }
-                      }
-                    ]
-                  ]
-                }
-              }
-            }
-          ]
-        },
-        "howCreated": "User"
-      },
-      {
-        "name": "475fb670d935b041ad09",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gold_security_trend"
-              }
-            },
-            "Property": "Homicide_Rate_Per100k"
-          }
-        },
-        "type": "Advanced",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "g",
-              "Entity": "gold_security_trend",
+              "Entity": "gold_bitcoin_treasury",
               "Type": 0
             }
           ],
@@ -465,7 +377,7 @@
                               "Source": "g"
                             }
                           },
-                          "Property": "Homicide_Rate_Per100k"
+                          "Property": "Date"
                         }
                       },
                       "Right": {
@@ -475,6 +387,174 @@
                       }
                     }
                   }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "96a0bc5e8cd1723cd698",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold_bitcoin_treasury"
+              }
+            },
+            "Property": "Record_Type"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "g",
+              "Entity": "gold_bitcoin_treasury",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "g"
+                          }
+                        },
+                        "Property": "Record_Type"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Official'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Estimated'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "7503d29097a8c7f9824e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold_bitcoin_treasury"
+              }
+            },
+            "Property": "Country_Code"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "g",
+              "Entity": "gold_bitcoin_treasury",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "g"
+                          }
+                        },
+                        "Property": "Country_Code"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'SV'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "d70e04bbbcb0b999a629",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold_bitcoin_treasury"
+              }
+            },
+            "Property": "Government_Level"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "g",
+              "Entity": "gold_bitcoin_treasury",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "g"
+                          }
+                        },
+                        "Property": "Government_Level"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'National'"
+                        }
+                      }
+                    ]
+                  ]
                 }
               }
             }

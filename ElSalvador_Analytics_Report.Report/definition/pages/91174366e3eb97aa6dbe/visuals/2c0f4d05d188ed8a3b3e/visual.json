@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
-  "name": "80dc628749641642272b",
+  "name": "2c0f4d05d188ed8a3b3e",
   "position": {
-    "x": 823.63636363636363,
-    "y": 174.54545454545453,
-    "z": 22000,
-    "height": 270.90909090909088,
-    "width": 452.72727272727269,
-    "tabOrder": 22000
+    "x": 363.04381245196004,
+    "y": 174.14296694850117,
+    "z": 13000,
+    "height": 546.04150653343584,
+    "width": 913.020753266718,
+    "tabOrder": 13000
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
@@ -197,7 +197,7 @@
             "secEnd": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "13D"
                 }
               }
             },
@@ -235,6 +235,53 @@
                 }
               }
             }
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "showMarker": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "markerSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "showSeries": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(gold_macro_trend.GDP_Growth_Pct)"
           }
         }
       ]

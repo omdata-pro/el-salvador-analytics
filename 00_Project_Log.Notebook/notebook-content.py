@@ -585,3 +585,37 @@
 # - Chose a Continuous X-axis for the compact Overview macroeconomic chart; the detailed Macroeconomics page can display more granular annual labels.
 # - Next session will begin by building the Bitcoin Treasury Holdings line chart below the Homicide chart, followed by the Regional Comparison chart in the remaining lower-right area.
 
+
+# MARKDOWN ********************
+
+# # Progress
+# 
+# **Date** 2026-08-21
+# 
+# - Finalized the Overview page’s four core visuals: Homicide Rate Trend, GDP Growth & FDI Net Inflows, Bitcoin Treasury Holdings, and Regional Comparison.
+# - Cleaned the Overview page filters and configured the Select Trend Year slicer to affect only the two yearly trend visuals. Headline KPI cards, Bitcoin history, and fixed-year regional comparisons remain unaffected.
+# - Completed the dedicated Security page with Latest Homicide Rate (1.9 per 100k), Reduction Since 2015 (98.2%), Latest Reporting Year (2024), and the 2015–2024 homicide trend.
+# - Completed the Macroeconomics page with Latest GDP Growth (3.9%), Latest FDI Net Inflows ($763.7M), FDI 5-Year Average ($684M), and the combined GDP growth/FDI trend visual.
+# - Completed the Bitcoin Treasury page with Current BTC Holdings (7,474.37 BTC), Growth Since First Checkpoint (224.8%), Current Treasury Value ($479.4M), and the dated national holdings trend.
+# - Completed the Regional Comparison page with El Salvador Regional Homicide Rank (1), Homicide Comparison Year (2022), Regional Average GDP Growth (4.1%), and two country-comparison bar charts.
+# - Added a dedicated regional-comparison icon to replace the temporary security icon.
+# - Applied consistent report styling: blue for security and peer comparisons, teal for macroeconomic metrics and El Salvador highlights, and orange for Bitcoin.
+# - Confirmed all five report pages use the same header, page navigator, dynamic last-updated label, spacing, typography, KPI-card structure, and navigation pattern.
+# 
+# # Troubleshooting
+# 
+# - Some filter cards could not be deleted directly because they were automatically generated from fields assigned to a visual. Resolved by removing or replacing the corresponding fields through Build visual.
+# - The Latest Regional Homicide Comparison Year measure was missing from the report Data pane because it was marked as hidden in the semantic model. Resolved by changing Is hidden to No.
+# - The homicide comparison year displayed as 2K even though its semantic-model format was Whole number. Resolved by setting the card’s Value display units from Auto to None.
+# - Edit interactions initially displayed icons across the entire page and made the intended filter behavior difficult to verify. Resolved by selecting the year slicer first and configuring each visual individually.
+# - Confirmed that the trend-year slicer updating only the yearly trend charts is intentional rather than an interaction error.
+# 
+# # Decisions
+# 
+# - Dedicated pillar pages reuse the finalized Overview page structure to maintain design consistency and reduce unnecessary rebuilding.
+# - Headline KPI cards remain independent of the trend-year slicer so they consistently show the latest available or current value.
+# - The Bitcoin Treasury page does not use the dim_year slicer because Bitcoin records operate at a separate date grain.
+# - Regional comparisons use fixed latest-valid comparison years—2022 for homicide and 2025 for GDP growth—to preserve meaningful cross-country comparisons.
+# - El Salvador is highlighted in teal in regional charts, while peer countries remain blue.
+# - The final report will contain five pages: Overview, Security, Macroeconomics, Bitcoin Treasury, and Regional Comparison.
+
