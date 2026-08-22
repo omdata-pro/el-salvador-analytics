@@ -395,6 +395,20 @@
           ]
         },
         "howCreated": "User"
+      },
+      {
+        "name": "bb2552f4df559a95b341",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold_regional_comparison"
+              }
+            },
+            "Property": "Country"
+          }
+        },
+        "type": "Categorical"
       }
     ]
   }

@@ -293,69 +293,6 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "04188d957d19152bd971",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "gold_regional_comparison"
-                  }
-                },
-                "Property": "Homicide_Rate_Per100k"
-              }
-            },
-            "Function": 4
-          }
-        },
-        "type": "Advanced",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "g",
-              "Entity": "gold_regional_comparison",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Not": {
-                  "Expression": {
-                    "Comparison": {
-                      "ComparisonKind": 0,
-                      "Left": {
-                        "Aggregation": {
-                          "Expression": {
-                            "Column": {
-                              "Expression": {
-                                "SourceRef": {
-                                  "Source": "g"
-                                }
-                              },
-                              "Property": "Homicide_Rate_Per100k"
-                            }
-                          },
-                          "Function": 4
-                        }
-                      },
-                      "Right": {
-                        "Literal": {
-                          "Value": "null"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        },
-        "howCreated": "User"
-      },
-      {
         "name": "3f69adf0eeb111e77108",
         "field": {
           "Column": {
@@ -394,7 +331,7 @@
                   },
                   "Right": {
                     "Literal": {
-                      "Value": "2022L"
+                      "Value": "2025L"
                     }
                   }
                 }
@@ -403,6 +340,82 @@
           ]
         },
         "howCreated": "User"
+      },
+      {
+        "name": "e7a2647da022580ea42f",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "gold_regional_comparison"
+              }
+            },
+            "Property": "Country"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "2a460230dd9b819f3a6c",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "gold_regional_comparison"
+                  }
+                },
+                "Property": "GDP_Growth_Pct"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "g",
+              "Entity": "gold_regional_comparison",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "Comparison": {
+                      "ComparisonKind": 0,
+                      "Left": {
+                        "Aggregation": {
+                          "Expression": {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Source": "g"
+                                }
+                              },
+                              "Property": "GDP_Growth_Pct"
+                            }
+                          },
+                          "Function": 0
+                        }
+                      },
+                      "Right": {
+                        "Literal": {
+                          "Value": "null"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
       }
     ]
   }

@@ -619,3 +619,37 @@
 # - El Salvador is highlighted in teal in regional charts, while peer countries remain blue.
 # - The final report will contain five pages: Overview, Security, Macroeconomics, Bitcoin Treasury, and Regional Comparison.
 
+
+# MARKDOWN ********************
+
+# # Progress
+# 
+# **Date** 2026-08-22
+# 
+# - Completed final functional review of the five-page Power BI report: Overview, Security, Macroeconomics, Bitcoin Treasury, and Regional Comparison.
+# - Confirmed the Overview page contains four headline KPI cards and four supporting visuals covering security, macroeconomics, Bitcoin treasury holdings, and regional homicide comparisons.
+# - Confirmed the Security page displays the latest homicide rate, 98.2% reduction since 2015, latest reporting year, and the 2015–2024 homicide-rate trend.
+# - Confirmed the Macroeconomics page displays latest GDP growth, latest FDI net inflows, five-year average FDI, and the combined GDP-growth/FDI trend.
+# - Confirmed the Bitcoin Treasury page displays current holdings, growth since the first checkpoint, current treasury value, and the dated national holdings trend.
+# - Confirmed the Regional Comparison page displays El Salvador's regional homicide rank, the homicide comparison year, regional average GDP growth, and both country-comparison charts.
+# - Corrected the Regional GDP Growth Comparison visual to use 2025 data. The chart now displays the available 2025 country values, including El Salvador at 3.9%.
+# - Retained the Regional Homicide Comparison at 2022 because that is the latest year with sufficiently complete comparable homicide-rate data across the selected countries.
+# - Tested the report's year slicers and visual interactions. The Overview trend slicer correctly updates the security and macroeconomic trend visuals, while the Security and Macroeconomics page slicers also function correctly.
+# - Saved the completed Power BI report after final validation. The report is now ready for final screenshots, a recorded walkthrough, portfolio documentation, and LinkedIn presentation.
+# 
+# # Troubleshooting
+# 
+# - The Regional GDP Growth Comparison initially returned no data for 2023–2025 because its visual-level Year filter was still set to 2022, matching the homicide comparison rather than the GDP dataset.
+# - Resolved the issue by setting the GDP comparison visual's Year filter to 2025 while keeping the homicide comparison visual independently fixed at 2022.
+# - Removed unnecessary page-level filters that had accumulated while visuals were being built. These filters referenced fields from unrelated tables and could unintentionally suppress data across the page.
+# - Confirmed that Bitcoin visuals should not respond to the shared trend-year slicer because the Bitcoin table uses its own date grain and is intentionally disconnected from `dim_year`.
+# - Confirmed that the regional comparison visuals use separate fixed comparison years because homicide and GDP data do not share the same latest complete reporting year.
+# 
+# # Decisions
+# 
+# - Approved the completed five-page Power BI report structure and visual design as the final portfolio version.
+# - Kept the shared year slicer limited to yearly trend tables connected through `dim_year`; Bitcoin remains independent on its Date field.
+# - Kept regional homicide and regional GDP visuals on separate metric-specific years: 2022 for homicide comparison and 2025 for GDP growth comparison.
+# - Preserved El Salvador's teal highlight in both regional charts so the focus country is immediately distinguishable from regional peers.
+# - Confirmed the remaining project work is presentation-focused rather than analytical development: capture polished screenshots, record the report walkthrough, document the project for the portfolio website, prepare the LinkedIn featured-project content, and commit the final Fabric changes to GitHub.
+
